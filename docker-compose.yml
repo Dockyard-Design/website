@@ -1,0 +1,24 @@
+services:
+  postgres:
+    restart: always
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: website
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  pgweb:
+    image: sosedoff/pgweb
+    ports:
+      - '8081:8081'
+    environment:
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/website?sslmode=disable
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

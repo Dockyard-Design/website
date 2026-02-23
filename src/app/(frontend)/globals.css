@@ -1,0 +1,69 @@
+@import 'tailwindcss';
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Wave animation for email text */
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.group:hover .group-hover\:animate-wave {
+  animation: wave 0.5s ease-in-out forwards;
+}
+
+@theme {
+  --font-family-sans: 'AvenirNext', sans-serif;
+  --font-family-display: 'AvenirNext', sans-serif;
+
+  --color-gradient-hero: linear-gradient(90deg, #00cbf4 0%, #e45dff 78%);
+}
+
+@utility bg-primary-gradient {
+  background: linear-gradient(
+    to bottom,
+    oklch(0.1932 0.0391 263.1) 0%,
+    oklch(0.1404 0.0187 265.6) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+@utility bg-button-gradient-light-blue {
+  background: linear-gradient(
+    to bottom,
+    oklch(0.7571 0.1387 221.34) 0%,
+    oklch(0.6047 0.107177 215.6248) 100%
+  );
+}
+
+@utility text-gradient-hero {
+  background: var(--color-gradient-hero);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    -3px -3px 10px rgba(255, 255, 255, 0.25),
+    4px 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@utility footer-top-glow {
+  box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.3);
+}
+
+@utility bg-steps-gradient {
+  background: linear-gradient(to right, rgba(72, 70, 100, 0.7) 0%, rgba(57, 83, 92, 0.7) 100%);
+}
