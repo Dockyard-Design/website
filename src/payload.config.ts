@@ -11,6 +11,7 @@ import { Projects } from './collections/Projects'
 import { Roles } from './collections/Roles'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 import type { Project } from './payload-types'
 
 const filename = fileURLToPath(import.meta.url)
@@ -53,6 +54,12 @@ export default buildConfig({
     seoPlugin({
       generateTitle,
       generateURL,
+    }),
+    vercelBlobStorage({
+      collections: {
+        media: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
   ],
 })
