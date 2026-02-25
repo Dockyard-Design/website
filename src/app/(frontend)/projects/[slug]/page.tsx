@@ -144,7 +144,7 @@ export default async function ProjectPage({ params }: PageProps) {
   ].filter((section) => section.content || (section.gallery && section.gallery.length > 0))
 
   return (
-    <article className="min-h-screen">
+    <article className="min-h-screen pt-50">
       {draft && <RefreshRouteOnSave />}
 
       {/* Hero Section */}

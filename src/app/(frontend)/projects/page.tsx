@@ -34,7 +34,7 @@ export default async function ProjectsPage({
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pt-50">
       {/* Hero Section */}
       <div className="relative pt-16 pb-24 overflow-visible">
         {/* Glassmorphism background effect - extended beyond section */}

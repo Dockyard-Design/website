@@ -23,7 +23,7 @@ export default function Navbar() {
   const pathname = usePathname()
 
   return (
-    <nav className="p-20 absolute left-80">
+    <nav className="p-20 absolute left-80 z-1">
       <div className="flex items-center justify-between gap-20">
         <div className="">
           <Link href="/" className="outline-none">
