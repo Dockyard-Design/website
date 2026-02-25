@@ -1,0 +1,223 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Wave animation for email text */
+@keyframes wave {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.group:hover .group-hover\:animate-wave {
+  animation: wave 0.5s ease-in-out forwards;
+}
+
+@theme {
+  --font-family-sans: 'AvenirNext', sans-serif;
+  --font-family-display: 'AvenirNext', sans-serif;
+
+  --color-gradient: linear-gradient(90deg, #00cdf4 40%, #e45dff 60%);
+  --color-gradient-hero: linear-gradient(90deg, #00cbf4 0%, #e45dff 78%);
+  --color-gradient-button: linear-gradient(180deg, #0f182d, #060c17);
+  --modal-background: linear-gradient(90deg, rgba(41, 44, 73, 1) 0%, rgba(30, 52, 67, 1) 100%);
+  --modal-background-dimmed: linear-gradient(
+    90deg,
+    rgba(41, 44, 73, 0.75) 0%,
+    rgba(30, 52, 67, 0.75) 100%
+  );
+}
+
+@utility bg-primary-gradient {
+  background: linear-gradient(
+    to bottom,
+    oklch(0.1932 0.0391 263.1) 0%,
+    oklch(0.1404 0.0187 265.6) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+@utility bg-button-gradient-light-blue {
+  background: linear-gradient(
+    to bottom,
+    oklch(0.7571 0.1387 221.34) 0%,
+    oklch(0.6047 0.107177 215.6248) 100%
+  );
+}
+
+@utility text-gradient-hero {
+  background: var(--color-gradient-hero);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    -3px -3px 10px rgba(255, 255, 255, 0.25),
+    4px 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@utility footer-top-glow {
+  box-shadow: -4px -4px 10px rgba(255, 255, 255, 0.3);
+}
+
+@utility bg-steps-gradient {
+  background: linear-gradient(to right, rgba(72, 70, 100, 0.7) 0%, rgba(57, 83, 92, 0.7) 100%);
+}
+
+/* New utilities from dockyardstudio */
+@utility bg-brand-gradient-dark {
+  background: linear-gradient(
+    to right,
+    oklch(0.2444 0.0322 231.89) 0%,
+    oklch(0.2411 0.0672 319.84) 100%
+  );
+}
+
+@utility bg-services-gradient-card {
+  background: linear-gradient(
+    to right,
+    oklch(0.2165 0.0497 22.1) 0%,
+    oklch(0.1541 0.026 260.23) 100%
+  );
+  opacity: 90%;
+}
+
+@utility border-brand-gradient {
+  position: relative;
+  border-radius: 16px;
+  padding: 1.35px;
+  background: linear-gradient(169deg, #00cdf4 0%, #00cdf4 50%, #e45dff 50%, #e45dff 100%);
+}
+
+.border-brand-gradient::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  z-index: -1;
+  border-radius: 20px;
+  pointer-events: none;
+  background: linear-gradient(169deg, #00cdf4 0%, #00cdf4 50%, #e45dff 50%, #e45dff 100%);
+  filter: blur(12px);
+  opacity: 0.7;
+}
+
+@utility bg-input-gradient {
+  background: linear-gradient(
+    to right,
+    oklch(0.6966 0.1414 284.89 / 0.2) 0%,
+    oklch(0.7429 0.0942 222.88 / 0.2) 100%
+  );
+}
+
+@utility bg-projects-gradient {
+  background: linear-gradient(to right, #484664 0%, #39535c 100%);
+  opacity: 100%;
+}
+
+@layer utilities {
+  /* Text shadow utilities from dockyardstudio */
+  .text-gradient {
+    background: var(--color-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      -4px -4px 18px rgba(255, 255, 255, 0.2),
+      4px 4px 18px rgba(0, 0, 0, 0.8),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .text-services {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      -3px -3px 10px rgba(255, 255, 255, 0.25),
+      4px 4px 6px rgba(0, 0, 0, 0.1),
+      0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .muted-text-shadow-hero {
+    color: transparent;
+    background: #9daccd;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      0px 3px 3px rgba(255, 255, 255, 0.15),
+      -4px -4px 3px rgba(0, 0, 0, 0.3);
+    opacity: 80%;
+  }
+
+  .off-white-text-shadow-hero {
+    color: transparent;
+    background: #f2eee1;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      4px 4px 18px rgba(0, 0, 0, 0.15),
+      -4px -4px 10px rgba(255, 255, 255, 0.3);
+  }
+
+  .off-white-text-shadow-steps {
+    color: transparent;
+    background: #f2eee1;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      1px 1px 18px rgba(0, 0, 0, 0.15),
+      -1px -1px 10px rgba(255, 255, 255, 0.3);
+  }
+
+  .white-text-shadow-hero {
+    color: transparent;
+    background: white;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      4px 4px 18px rgba(0, 0, 0, 0.15),
+      -4px -4px 10px rgba(255, 255, 255, 0.3);
+  }
+
+  .white-text-shadow-no-bg {
+    color: transparent;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    text-shadow:
+      1px 1px 12px rgba(0, 0, 0, 0.15),
+      -1px -1px 10px rgba(255, 255, 255, 0.3);
+  }
+
+  .white-drop-shadow {
+    box-shadow:
+      14px 14px 18px 1px rgba(0, 0, 0, 0.15),
+      -4px -4px 10px rgba(255, 255, 255, 0.3);
+  }
+
+  .custom-modal-background {
+    background: var(--modal-background);
+  }
+
+  .custom-modal-background-dimmed {
+    background: var(--modal-background-dimmed);
+  }
+}
