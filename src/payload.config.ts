@@ -10,9 +10,21 @@ import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Roles } from './collections/Roles'
 import { seoPlugin } from '@payloadcms/plugin-seo'
+import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import type { Project } from './payload-types'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+const generateTitle: GenerateTitle<Project> = ({ doc }) => {
+  return doc?.title || ''
+}
+
+const generateURL: GenerateURL<Project> = ({ doc }) => {
+  return doc?.slug
+    ? `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/projects/${doc.slug}`
+    : process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+}
 
 export default buildConfig({
   admin: {
@@ -39,13 +51,8 @@ export default buildConfig({
   sharp,
   plugins: [
     seoPlugin({
-      collections: ['projects'],
-      uploadsCollection: 'media',
-      tabbedUI: true,
-      generateTitle: ({ doc }) => doc?.title,
-      generateDescription: ({ doc }) => doc?.summary,
-      generateURL: ({ doc }) =>
-        `${process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'}/projects/${doc?.slug}`,
+      generateTitle,
+      generateURL,
     }),
   ],
 })

@@ -354,11 +354,11 @@ export interface Project {
     | null;
   meta?: {
     title?: string | null;
-    description?: string | null;
     /**
      * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
      */
     image?: (number | null) | Media;
+    description?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -540,8 +540,8 @@ export interface ProjectsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        description?: T;
         image?: T;
+        description?: T;
       };
   updatedAt?: T;
   createdAt?: T;

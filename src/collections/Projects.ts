@@ -3,6 +3,12 @@ import { slugField } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { generatePreviewPath } from '../utilities/generatePreviewPath'
 import { adminOrHasCollectionAccess } from '@/access/roles'
+import {
+  MetaDescriptionField,
+  MetaImageField,
+  MetaTitleField,
+  OverviewField,
+} from '@payloadcms/plugin-seo/fields'
 
 const formatSlug = (val: string): string => {
   return val
@@ -216,6 +222,24 @@ export const Projects: CollectionConfig = {
               label: 'Content',
             },
             galleryField('feedback', 4),
+          ],
+        },
+        {
+          name: 'meta',
+          label: 'SEO',
+          fields: [
+            OverviewField({
+              titlePath: 'meta.title',
+              descriptionPath: 'meta.description',
+              imagePath: 'meta.image',
+            }),
+            MetaTitleField({
+              hasGenerateFn: true,
+            }),
+            MetaImageField({
+              relationTo: 'media',
+            }),
+            MetaDescriptionField({}),
           ],
         },
       ],
