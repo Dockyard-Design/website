@@ -33,10 +33,6 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
-    autoLogin: {
-      email: process.env.PAYLOAD_ADMIN_EMAIL || '',
-      password: process.env.PAYLOAD_ADMIN_PASSWORD || '',
-    },
   },
   collections: [Users, Media, Projects, Roles],
   editor: lexicalEditor(),
