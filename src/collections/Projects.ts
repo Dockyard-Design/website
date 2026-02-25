@@ -1,7 +1,8 @@
-import type { CollectionConfig } from 'payload'
+import type { CollectionConfig, PayloadRequest } from 'payload'
 import { slugField } from 'payload'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { generatePreviewPath } from '../utilities/generatePreviewPath'
+import { adminOrHasCollectionAccess } from '@/access/roles'
 
 const formatSlug = (val: string): string => {
   return val
@@ -83,7 +84,15 @@ export const Projects: CollectionConfig = {
     },
   },
   access: {
+    create: adminOrHasCollectionAccess('projects'),
     read: () => true,
+    update: adminOrHasCollectionAccess('projects'),
+    delete: adminOrHasCollectionAccess('projects'),
+    admin: ({ req }: { req: PayloadRequest }) => {
+      const { user } = req
+      if (!user) return false
+      return true
+    },
   },
   defaultPopulate: {
     title: true,

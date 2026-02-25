@@ -41,6 +41,9 @@ next-env.d.ts
 .env
 
 /media
+/scripts/migrate-db.ts
+/scripts/drop-all-tables.ts
+/scripts/*.sql
 
 # Playwright
 node_modules/

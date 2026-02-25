@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     media: Media;
     projects: Project;
+    roles: Role;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -80,6 +81,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    roles: RolesSelect<false> | RolesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -122,6 +124,14 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  /**
+   * Full name of the user
+   */
+  name: string;
+  /**
+   * Assign roles to this user. Admins have full access. First user automatically becomes Admin.
+   */
+  roles?: (number | Role)[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -140,6 +150,37 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles".
+ */
+export interface Role {
+  id: number;
+  /**
+   * Display name for this role
+   */
+  name: string;
+  /**
+   * Unique identifier for this role (e.g., "admin", "editor")
+   */
+  slug: string;
+  /**
+   * Optional description of what this role can do
+   */
+  description?: string | null;
+  /**
+   * Select which collections this role can access
+   */
+  permissions?:
+    | {
+        collection: 'users' | 'media' | 'projects';
+        hasAccess?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -358,6 +399,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'roles';
+        value: number | Role;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -406,6 +451,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -499,6 +546,24 @@ export interface ProjectsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "roles_select".
+ */
+export interface RolesSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  permissions?:
+    | T
+    | {
+        collection?: T;
+        hasAccess?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
