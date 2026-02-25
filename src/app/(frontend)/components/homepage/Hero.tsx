@@ -25,7 +25,7 @@ export default function Hero() {
         priority
       />
 
-      <div className="flex flex-col pt-20 pl-20 z-20 mt-10 leading-tight tracking-[0.1rem] relative">
+      <div className="flex flex-col pt-20 z-20 mt-10 leading-tight tracking-[0.1rem] relative pl-80 pr-80">
         <span className="ml-47 text-[70px] font-semibold text-[#73809A] uppercase muted-text-shadow-hero">
           Prototype
         </span>
