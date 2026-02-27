@@ -22,6 +22,15 @@ interface RenderBlocksProps {
   blocks: Page['blocks']
 }
 
+// Map block types to section IDs for navigation
+const blockTypeToId: Record<string, string> = {
+  hero: 'hero',
+  services: 'services',
+  about: 'about',
+  steps: 'steps',
+  projectsCarousel: 'projects',
+}
+
 // Type assertion helper to convert block to component props
 function getBlockComponent(block: any) {
   const { blockType, ...props } = block
@@ -39,12 +48,13 @@ export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
 
           if (blockType && blockType in blockComponents) {
             const { Component, props } = getBlockComponent(block)
+            const sectionId = blockTypeToId[blockType]
 
             if (Component) {
               return (
-                <div key={index}>
+                <section id={sectionId} key={index}>
                   <Component {...props} />
-                </div>
+                </section>
               )
             }
           }

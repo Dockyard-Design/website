@@ -10,9 +10,20 @@ export const ProjectsCarousel: Block = {
   fields: [
     {
       name: 'title',
-      type: 'richText',
+      type: 'text',
       required: true,
       label: 'Section Title',
+      defaultValue: "SIT BACK & RELAX... WE KNOW WHAT WE'RE DOING",
+    },
+    {
+      name: 'titleHtml',
+      type: 'code',
+      label: 'Title HTML (Optional)',
+      admin: {
+        description:
+          'Custom HTML for the title with styling. If empty, the plain title will be used.',
+        language: 'html',
+      },
     },
     {
       name: 'subtitle',

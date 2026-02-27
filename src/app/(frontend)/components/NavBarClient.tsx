@@ -29,6 +29,30 @@ function isActive(href: string, pathname: string) {
   return pathname === href
 }
 
+// Handle smooth scrolling to anchor links
+function handleSmoothScroll(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+  if (href.startsWith('/#')) {
+    e.preventDefault()
+    const targetId = href.substring(2) // Remove '/#' to get just the ID
+    const element = document.getElementById(targetId)
+
+    if (element) {
+      // Calculate offset to account for fixed navbar
+      const navbarHeight = 80
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      const offsetPosition = elementPosition - navbarHeight
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+
+      // Update URL hash without jumping
+      window.history.pushState(null, '', href)
+    }
+  }
+}
+
 export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarClientProps) {
   const pathname = usePathname()
 
@@ -55,6 +79,7 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
               className={isActive(link.link, pathname) ? 'font-bold' : 'hover:font-semibold'}
               target={link.isExternal ? '_blank' : undefined}
               rel={link.isExternal ? 'noopener noreferrer' : undefined}
+              onClick={(e) => handleSmoothScroll(e, link.link)}
             >
               {link.label}
             </Link>

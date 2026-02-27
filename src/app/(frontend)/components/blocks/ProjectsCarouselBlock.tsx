@@ -31,6 +31,7 @@ const projects = [
 
 interface ProjectsCarouselBlockProps {
   title?: ProjectsCarouselBlockType['title']
+  titleHtml?: string
   subtitle?: string
   showSeeMoreButton?: boolean
   seeMoreButtonText?: string
@@ -42,6 +43,7 @@ interface ProjectsCarouselBlockProps {
 
 export default function ProjectsCarouselBlock({
   title,
+  titleHtml,
   subtitle,
   showSeeMoreButton = true,
   seeMoreButtonText = 'SEE MORE →',
@@ -77,31 +79,15 @@ export default function ProjectsCarouselBlock({
     })
   }
 
-  // Helper to extract plain text from rich text title
-  const extractTitleText = (richText?: ProjectsCarouselBlockType['title']): string => {
-    if (!richText?.root?.children) return ''
-    return richText.root.children
-      .map((child: { type: any; version: number; [k: string]: unknown }) => {
-        if (child.type === 'paragraph' && 'children' in child) {
-          const paragraphChildren = (child as { children?: Array<{ text?: string }> }).children
-          return paragraphChildren?.map((c) => c.text || '').join('') || ''
-        }
-        return ''
-      })
-      .join(' ')
-      .trim()
-  }
-
-  const titleText = title ? extractTitleText(title) : ''
-
   return (
-    <section className="w-full min-h-screen flex flex-col items-center justify-start content-center">
+    <section className="w-full pt-5 pb-10 flex flex-col items-center justify-start content-center">
       {/* Heading and subheading */}
       <div className="flex flex-col items-center mb-8">
-        {titleText ? (
-          <h2 className="text-3xl font-bold tracking-tight text-center white-text-shadow-hero">
-            {titleText}
-          </h2>
+        {titleHtml ? (
+          <h2
+            className="text-3xl font-bold tracking-tight text-center white-text-shadow-hero"
+            dangerouslySetInnerHTML={{ __html: titleHtml }}
+          />
         ) : (
           <h2 className="text-3xl font-bold tracking-tight text-center white-text-shadow-hero">
             SIT BACK &amp;{' '}

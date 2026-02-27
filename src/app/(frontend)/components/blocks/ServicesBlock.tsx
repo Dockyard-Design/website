@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import { BarChart3 } from 'lucide-react'
 import { ServicesCard } from '../homepage/ServicesCard'
 import type { ServicesBlock } from '@/payload-types'
 
@@ -78,6 +79,30 @@ export default function ServicesBlock({
     })
   }
 
+  // Helper to get icon for a service
+  const getServiceIcon = (service: any, index: number) => {
+    // Check if there's an uploaded icon
+    if (service.icon) {
+      return (
+        <Image
+          src={getImageUrl(service.icon)}
+          alt={service.title}
+          width={96}
+          height={96}
+          className="text-white"
+          priority
+        />
+      )
+    }
+
+    // Check for Google Analytics by title
+    if (service.title === 'Google Analytics') {
+      return <BarChart3 size={86} className="text-white" />
+    }
+
+    return null
+  }
+
   return (
     <div className="w-full mt-22 flex justify-center items-center flex-col pb-16">
       <h1 className="text-2xl font-bold white-text-shadow-hero">{renderRichText(sectionTitle)}</h1>
@@ -103,18 +128,7 @@ export default function ServicesBlock({
           {services?.slice(0, 2).map((service, index) => (
             <ServicesCard
               key={index}
-              icon={
-                service.icon ? (
-                  <Image
-                    src={getImageUrl(service.icon)}
-                    alt={service.title}
-                    width={96}
-                    height={96}
-                    className="text-white"
-                    priority
-                  />
-                ) : null
-              }
+              icon={getServiceIcon(service, index)}
               title={service.title}
               description={service.description}
               cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
@@ -130,18 +144,7 @@ export default function ServicesBlock({
         {services && services.length > 2 && (
           <div className="flex justify-center mt-12">
             <ServicesCard
-              icon={
-                services[2].icon ? (
-                  <Image
-                    src={getImageUrl(services[2].icon)}
-                    alt={services[2].title}
-                    width={96}
-                    height={96}
-                    className="text-white"
-                    priority
-                  />
-                ) : null
-              }
+              icon={getServiceIcon(services[2], 2)}
               title={services[2].title}
               description={services[2].description}
               cardClassName={`bg-services-gradient-card border border-[${services[2].cardColor}]/50 w-109 h-28`}

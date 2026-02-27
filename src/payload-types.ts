@@ -599,21 +599,11 @@ export interface AboutBlock {
  * via the `definition` "ProjectsCarouselBlock".
  */
 export interface ProjectsCarouselBlock {
-  title: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
+  title: string;
+  /**
+   * Custom HTML for the title with styling. If empty, the plain title will be used.
+   */
+  titleHtml?: string | null;
   subtitle: string;
   showSeeMoreButton?: boolean | null;
   seeMoreButtonText?: string | null;
@@ -1032,6 +1022,7 @@ export interface AboutBlockSelect<T extends boolean = true> {
  */
 export interface ProjectsCarouselBlockSelect<T extends boolean = true> {
   title?: T;
+  titleHtml?: T;
   subtitle?: T;
   showSeeMoreButton?: T;
   seeMoreButtonText?: T;
