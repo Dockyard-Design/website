@@ -13,6 +13,7 @@ interface ProjectCardProps {
   description: string
   index: number
   slug?: string
+  priority?: boolean
 }
 
 export default function ProjectCard({
@@ -22,6 +23,7 @@ export default function ProjectCard({
   description,
   index,
   slug,
+  priority = false,
 }: ProjectCardProps) {
   const isReversed = index % 2 !== 0
   const [isVisible, setIsVisible] = useState(false)
@@ -70,6 +72,8 @@ export default function ProjectCard({
             fill
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             sizes="(max-width: 1024px) 100vw, 55vw"
+            priority={priority}
+            loading={priority ? 'eager' : 'lazy'}
           />
 
           {/* Dark overlay that appears on hover */}

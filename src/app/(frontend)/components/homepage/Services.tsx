@@ -40,6 +40,7 @@ export default function Services() {
                 width={96}
                 height={96}
                 className="text-white"
+                priority
               />
             }
             title="SEO"
@@ -57,6 +58,7 @@ export default function Services() {
                 width={96}
                 height={96}
                 className="text-white"
+                priority
               />
             }
             title="Branding & Logos"

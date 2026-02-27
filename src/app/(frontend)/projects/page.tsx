@@ -4,6 +4,7 @@ import config from '@payload-config'
 import Link from 'next/link'
 import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import ProjectCard from '../components/ProjectCard'
+import { getMediaUrl } from '@/utilities/getMediaUrl'
 
 interface SearchParams {
   page?: string
@@ -63,17 +64,12 @@ export default async function ProjectsPage({
             <ProjectCard
               key={project.id}
               index={index}
-              image={
-                (project.meta?.image &&
-                typeof project.meta.image === 'object' &&
-                'url' in project.meta.image
-                  ? project.meta.image.url
-                  : null) || '/images/anchor.png'
-              }
+              image={getMediaUrl(project.meta?.image, 'card')}
               title={project.title}
               subtitle={project.hero?.title || project.title}
               description={project.hero?.description || project.summary || ''}
               slug={typeof project.slug === 'string' ? project.slug : undefined}
+              priority={index < 3}
             />
           ))}
         </div>

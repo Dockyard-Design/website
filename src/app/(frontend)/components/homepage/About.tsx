@@ -52,7 +52,7 @@ export default function About() {
           alt="Dockyard background"
           fill
           className="object-cover opacity-20"
-          priority
+          loading="lazy"
         />
       </div>
 
@@ -80,6 +80,7 @@ export default function About() {
                 width={180}
                 height={240}
                 className="object-cover w-full h-full"
+                loading="lazy"
               />
             </div>
             <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">
@@ -127,6 +128,7 @@ export default function About() {
                 width={180}
                 height={240}
                 className="object-cover w-full h-full"
+                loading="lazy"
               />
             </div>
             <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">

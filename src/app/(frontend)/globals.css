@@ -4,6 +4,12 @@
 /* Smooth scrolling for the entire page */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+/* Hide horizontal overflow globally */
+body {
+  overflow-x: hidden;
 }
 
 /* Wave animation for email text */

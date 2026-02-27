@@ -8,9 +8,17 @@ export interface ProjectCardProps {
   title: string
   link: string
   active?: boolean
+  priority?: boolean
 }
 
-export function ProjectCard({ imageSrc, label, title, link, active = false }: ProjectCardProps) {
+export function ProjectCard({
+  imageSrc,
+  label,
+  title,
+  link,
+  active = false,
+  priority = false,
+}: ProjectCardProps) {
   return (
     <div
       className={`flex flex-col w-full gap-0 m-0 p-0 rounded-2xl shadow-lg border-none overflow-hidden bg-transparent transition-all duration-500 ${active ? 'scale-110 shadow-2xl z-20' : 'scale-95 z-10 white-drop-shadow'}`}
@@ -21,7 +29,9 @@ export function ProjectCard({ imageSrc, label, title, link, active = false }: Pr
           alt={title}
           fill
           className="object-cover rounded-t-2xl z-10"
-          sizes="100vw"
+          sizes="340px"
+          priority={priority}
+          loading={priority ? 'eager' : 'lazy'}
         />
       </div>
       <div className="flex flex-col items-center overflow-visible px-0 relative">

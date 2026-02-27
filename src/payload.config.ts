@@ -9,6 +9,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Roles } from './collections/Roles'
+import { Pages } from './collections/Pages'
+import { Header } from './globals/Header'
+import { Footer } from './globals/Footer'
+import { SiteSettings } from './globals/SiteSettings'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -34,7 +38,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Projects, Roles],
+  collections: [Users, Media, Projects, Roles, Pages],
+  globals: [Header, Footer, SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

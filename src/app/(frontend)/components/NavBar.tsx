@@ -1,56 +1,42 @@
-'use client'
+import { getPayload } from 'payload'
+import config from '@/payload.config'
+import NavBarClient from './NavBarClient'
+import type { Header, SiteSetting } from '@/payload-types'
 
-import { usePathname } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Button } from './ui/Button'
-
-const NAV_LINKS = [
-  { href: '/', label: 'Home' },
-  { href: '/#about', label: 'About' },
-  { href: '/#services', label: 'Services' },
-  { href: '/projects', label: 'Projects' },
-]
-
-function isActive(href: string, pathname: string) {
-  if (href.startsWith('#')) {
-    return pathname === '/' && window.location.hash.substring(1) === href.substring(2)
-  }
-  return pathname === href
+// Helper to get image URL
+const getImageUrl = (image: any, fallback: string = '') => {
+  if (typeof image === 'object' && image !== null && 'url' in image) return image.url
+  return fallback
 }
 
-export default function Navbar() {
-  const pathname = usePathname()
+export default async function NavBar() {
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
+
+  const [header, siteSettings] = await Promise.all([
+    payload.findGlobal({
+      slug: 'header',
+      depth: 0,
+    }) as Promise<Header>,
+    payload.findGlobal({
+      slug: 'site-settings',
+      depth: 2,
+    }) as Promise<SiteSetting>,
+  ])
+
+  // Transform navLinks to match expected type
+  const navLinks =
+    header?.navLinks?.map((link) => ({
+      label: link.label,
+      link: link.link,
+      isExternal: link.isExternal ?? undefined,
+    })) || []
 
   return (
-    <nav className="p-20 absolute left-80 z-1">
-      <div className="flex items-center justify-between gap-20">
-        <div className="">
-          <Link href="/" className="outline-none">
-            <Image
-              src="/images/logo.png"
-              alt="Dockyard Logo"
-              width={250}
-              height={100}
-              className="object-contain w-auto h-auto"
-            />
-          </Link>
-        </div>
-        <div className="tracking-widest flex gap-8 pl-40 pr-40 text-lg font-light">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={isActive(link.href, pathname) ? 'font-bold' : 'hover:font-semibold'}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-        <Button className="ml-auto mr-40" variant="glower" size="lg-rounded">
-          <Link href="/contact">GET IN TOUCH</Link>
-        </Button>
-      </div>
-    </nav>
+    <NavBarClient
+      logoUrl={getImageUrl(siteSettings?.logo, '/images/logo.png')}
+      navLinks={navLinks}
+      ctaButton={header?.ctaButton || { text: 'GET IN TOUCH', link: '/contact' }}
+    />
   )
 }

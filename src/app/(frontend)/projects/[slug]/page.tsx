@@ -10,6 +10,7 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html'
 import { RefreshRouteOnSave } from '@/components/RefreshRouteOnSave'
 import type { Media, Project } from '@/payload-types'
+import { getMediaUrl } from '@/utilities/getMediaUrl'
 
 interface PageProps {
   params: Promise<{
@@ -90,11 +91,12 @@ function SectionGallery({
             className="relative w-48 h-48 overflow-hidden rounded-2xl"
           >
             <Image
-              src={image.url || ''}
+              src={getMediaUrl(image, 'card')}
               alt={item.alt || image.alt || `Gallery image ${index + 1}`}
               fill
               className="object-cover"
               sizes="192px"
+              loading="lazy"
             />
           </div>
         )
@@ -185,7 +187,7 @@ export default async function ProjectPage({ params }: PageProps) {
               <div className="w-full lg:w-1/2 order-1 lg:order-2">
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
                   <Image
-                    src={heroImage.url}
+                    src={getMediaUrl(heroImage, 'hero')}
                     alt={heroImage.alt || heroTitle}
                     fill
                     className="object-cover"
