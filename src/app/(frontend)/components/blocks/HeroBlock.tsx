@@ -8,8 +8,8 @@ import Link from 'next/link'
 import type { HeroBlock } from '@/payload-types'
 
 const SLOT_WORDS = ['PROTOTYPE', 'DESIGN', 'BUILD', 'SHIP']
-const SPIN_DURATION = 800
-const SETTLE_TIME = 1500
+const SPIN_DURATION = 600
+const SETTLE_TIME = 1000
 
 // Typewriter component for "WE ARE DOCKYARD"
 function TypewriterText({ text, isComplete }: { text: string; isComplete: boolean }) {
@@ -187,15 +187,11 @@ export default function HeroBlock({
   const [isSpinning, setIsSpinning] = useState(false)
   const [scrambleWords, setScrambleWords] = useState<[string, string, string]>(['', '', ''])
 
-  // Get the three words to display based on current index
+  // Get the three words to display based on current index (with wrap-around)
   const getDisplayWords = (index: number): [string, string, string] => {
-    if (index === 0) {
-      return ['', SLOT_WORDS[0], SLOT_WORDS[1]]
-    } else if (index === SLOT_WORDS.length - 1) {
-      return [SLOT_WORDS[index - 1], SLOT_WORDS[index], '']
-    } else {
-      return [SLOT_WORDS[index - 1], SLOT_WORDS[index], SLOT_WORDS[index + 1]]
-    }
+    const prevIndex = index === 0 ? SLOT_WORDS.length - 1 : index - 1
+    const nextIndex = index === SLOT_WORDS.length - 1 ? 0 : index + 1
+    return [SLOT_WORDS[prevIndex], SLOT_WORDS[index], SLOT_WORDS[nextIndex]]
   }
 
   // Track if animation has completed
@@ -221,7 +217,7 @@ export default function HeroBlock({
           SLOT_WORDS[Math.floor(Math.random() * SLOT_WORDS.length)],
           SLOT_WORDS[Math.floor(Math.random() * SLOT_WORDS.length)],
         ])
-      }, 80) // Slower scramble
+      }, 50) // Faster scramble
 
       // Stop after spin duration
       await new Promise((resolve) => setTimeout(resolve, SPIN_DURATION))
@@ -250,8 +246,8 @@ export default function HeroBlock({
   // Render slot machine animation
   if (animationType === 'slotMachine') {
     return (
-      <div className="h-screen w-full relative overflow-visible pt-80">
-        <div className="absolute top-27 overflow-visible w-full h-full">
+      <div className="h-screen w-full relative overflow-hidden pt-80">
+        <div className="absolute top-27 overflow-hidden w-full h-full">
           {backgroundUrl && (
             <Image
               src={backgroundUrl}
@@ -383,8 +379,8 @@ export default function HeroBlock({
 
   // Render static hero
   return (
-    <div className="h-screen w-full relative overflow-visible pt-80">
-      <div className="absolute top-27 overflow-visible w-full h-full">
+    <div className="h-screen w-full relative overflow-hidden pt-80">
+      <div className="absolute top-27 overflow-hidden w-full h-full">
         {backgroundUrl && (
           <Image
             src={backgroundUrl}
