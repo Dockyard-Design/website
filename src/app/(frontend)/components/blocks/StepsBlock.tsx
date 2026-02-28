@@ -58,7 +58,7 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
                   alt={`${step.title} icon`}
                   width={100}
                   height={100}
-                  className="object-contain"
+                  className="object-contain h-auto w-auto"
                   priority
                 />
               )}

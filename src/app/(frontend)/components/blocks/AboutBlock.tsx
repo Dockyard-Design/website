@@ -102,6 +102,7 @@ export default function AboutBlock({
               key={0}
               initial={{ opacity: 0, x: -120 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{
                 type: 'spring',
                 stiffness: 80,
@@ -128,21 +129,16 @@ export default function AboutBlock({
               </div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">
                 <motion.span
-                  className="text-xs font-bold tracking-widest text-white pl-10"
-                  style={{ transform: `rotate(${teamMembers[0].rotation}deg)` }}
-                  initial={{ opacity: 0, x: teamMembers[0].rotation === '-10' ? -10 : 10 }}
+                  className={`text-xs font-bold tracking-widest text-white pl-10 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: teamMembers[0].animationDelay || 0 }}
                 >
                   <Typewriter text={teamMembers[0].role.toUpperCase()} speed={50} />
                 </motion.span>
                 <motion.span
-                  className="text-xs font-bold tracking-widest text-gradient-hero"
-                  style={{
-                    transform: `rotate(${teamMembers[0].rotation}deg)`,
-                    paddingLeft: teamMembers[0].rotation === '-10' ? '44px' : '16px',
-                  }}
-                  initial={{ opacity: 0, x: teamMembers[0].rotation === '-10' ? -10 : 10 }}
+                  className={`text-xs font-bold tracking-widest text-gradient-hero pl-11 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: (teamMembers[0].animationDelay || 0) + 0.2 }}
                 >
@@ -165,6 +161,7 @@ export default function AboutBlock({
               key={1}
               initial={{ opacity: 0, x: 120 }}
               whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{
                 type: 'spring',
                 stiffness: 80,
@@ -192,18 +189,16 @@ export default function AboutBlock({
               </div>
               <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">
                 <motion.span
-                  className="text-xs font-bold tracking-widest text-white pb-2 pl-18"
-                  style={{ transform: `rotate(${teamMembers[1].rotation}deg)` }}
-                  initial={{ opacity: 0, x: teamMembers[1].rotation === '-10' ? -10 : 10 }}
+                  className={`text-xs font-bold tracking-widest text-white pb-2 pl-18 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: teamMembers[1].animationDelay || 0 }}
                 >
                   <Typewriter text={teamMembers[1].role.toUpperCase()} speed={50} />
                 </motion.span>
                 <motion.span
-                  className="text-xs font-bold tracking-widest text-gradient-hero pl-4"
-                  style={{ transform: `rotate(${teamMembers[1].rotation}deg)` }}
-                  initial={{ opacity: 0, x: teamMembers[1].rotation === '-10' ? -10 : 10 }}
+                  className={`text-xs font-bold tracking-widest text-gradient-hero pl-4 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: (teamMembers[1].animationDelay || 0) + 0.2 }}
                 >

@@ -74,7 +74,9 @@ const avenirNext = localFont({
   variable: '--font-sans',
 })
 
-export async function generateMetadata() {
+import { Metadata } from 'next'
+
+export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayload({ config })
   const siteSettings = (await payload.findGlobal({
     slug: 'site-settings',

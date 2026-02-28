@@ -445,12 +445,35 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
-  backgroundImage: number | Media;
+  animationType?: ('static' | 'slotMachine') | null;
+  backgroundImage?: (number | null) | Media;
+  backgroundImageOpacity?: number | null;
   heroImage: number | Media;
+  heroImagePosition?: {
+    position?:
+      | (
+          | 'right-center'
+          | 'right-top'
+          | 'right-bottom'
+          | 'left-center'
+          | 'left-top'
+          | 'left-bottom'
+          | 'center'
+          | 'custom'
+        )
+      | null;
+    customTop?: string | null;
+    customRight?: string | null;
+    customLeft?: string | null;
+    width?: string | null;
+    maxWidth?: string | null;
+    minWidth?: string | null;
+    rotation?: number | null;
+  };
   headlines?:
     | {
         text: string;
-        style: 'white' | 'muted' | 'gradient';
+        style: 'white' | 'muted' | 'gradient' | 'custom';
         marginLeft?: string | null;
         id?: string | null;
       }[]
@@ -932,8 +955,22 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
+  animationType?: T;
   backgroundImage?: T;
+  backgroundImageOpacity?: T;
   heroImage?: T;
+  heroImagePosition?:
+    | T
+    | {
+        position?: T;
+        customTop?: T;
+        customRight?: T;
+        customLeft?: T;
+        width?: T;
+        maxWidth?: T;
+        minWidth?: T;
+        rotation?: T;
+      };
   headlines?:
     | T
     | {

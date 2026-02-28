@@ -55,7 +55,7 @@ export default function FooterClient({
           alt="Anchor"
           width={375}
           height={375}
-          className="pl-1 object-contain absolute opacity-50 z-0"
+          className="pl-1 object-contain absolute opacity-50 z-0 w-auto h-auto"
         />
       )}
       <div className="flex w-full items-center px-64 pb-32 relative z-10 text-lg">

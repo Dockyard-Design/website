@@ -142,18 +142,40 @@ export default function ServicesBlock({
         </div>
 
         {services && services.length > 2 && (
-          <div className="flex justify-center mt-12">
-            <ServicesCard
-              icon={getServiceIcon(services[2], 2)}
-              title={services[2].title}
-              description={services[2].description}
-              cardClassName={`bg-services-gradient-card border border-[${services[2].cardColor}]/50 w-109 h-28`}
-              iconClassName={`bg-gradient-to-t from-[${services[2].iconGradientStart}] to-[${services[2].iconGradientEnd}]`}
-              iconWrapperStyle={{ boxShadow: `0px 0px 12px ${services[2].cardColor}` }}
-              cardStyle={{
-                boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${services[2].cardColor}`,
-              }}
-            />
+          <div className="flex flex-row justify-center gap-12 mt-12">
+            {services?.slice(2, 4).map((service, index) => (
+              <ServicesCard
+                key={index + 2}
+                icon={getServiceIcon(service, index + 2)}
+                title={service.title}
+                description={service.description}
+                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
+                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}]`}
+                iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
+                cardStyle={{
+                  boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
+                }}
+              />
+            ))}
+          </div>
+        )}
+
+        {services && services.length > 4 && (
+          <div className="flex flex-row justify-center gap-12 mt-12">
+            {services?.slice(4).map((service, index) => (
+              <ServicesCard
+                key={index + 4}
+                icon={getServiceIcon(service, index + 4)}
+                title={service.title}
+                description={service.description}
+                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
+                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}]`}
+                iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
+                cardStyle={{
+                  boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
+                }}
+              />
+            ))}
           </div>
         )}
       </div>
