@@ -11,6 +11,55 @@ const SLOT_WORDS = ['PROTOTYPE', 'DESIGN', 'BUILD', 'SHIP']
 const SPIN_DURATION = 800
 const SETTLE_TIME = 1500
 
+// Typewriter component for "WE ARE DOCKYARD"
+function TypewriterText({ text, isComplete }: { text: string; isComplete: boolean }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+
+  useEffect(() => {
+    if (!isComplete) {
+      setDisplayedText('')
+      return
+    }
+
+    let index = 0
+    setDisplayedText('')
+
+    const typeInterval = setInterval(() => {
+      if (index < text.length) {
+        setDisplayedText(text.slice(0, index + 1))
+        index++
+      } else {
+        clearInterval(typeInterval)
+      }
+    }, 80) // Typing speed
+
+    return () => clearInterval(typeInterval)
+  }, [isComplete, text])
+
+  // Cursor blink effect
+  useEffect(() => {
+    if (!isComplete) return
+
+    const blinkInterval = setInterval(() => {
+      setShowCursor((prev) => !prev)
+    }, 530)
+
+    return () => clearInterval(blinkInterval)
+  }, [isComplete])
+
+  return (
+    <>
+      {displayedText}
+      <motion.span
+        animate={{ opacity: showCursor ? 1 : 0 }}
+        transition={{ duration: 0 }}
+        className="inline-block w-[4px] h-[55px] bg-white ml-1 align-middle"
+      />
+    </>
+  )
+}
+
 export default function HeroBlock({
   backgroundImage,
   backgroundImageOpacity,
@@ -248,7 +297,9 @@ export default function HeroBlock({
 
                 <p className="ml-12 text-[70px] uppercase font-semibold flex items-center h-[70px]">
                   <span className="white-text-shadow-hero">WE </span>
-                  <span className="text-gradient-hero">&nbsp;ARE DOCKYARD</span>
+                  <span className="text-gradient-hero flex items-center">
+                    <TypewriterText text="&nbsp;ARE DOCKYARD" isComplete={isFinal} />
+                  </span>
                 </p>
 
                 {/* Blank bottom space */}

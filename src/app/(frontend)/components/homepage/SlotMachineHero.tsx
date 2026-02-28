@@ -6,7 +6,56 @@ import { motion, AnimatePresence } from 'framer-motion'
 const words = ['PROTOTYPE', 'DESIGN', 'BUILD', 'SHIP']
 const DURATION_PER_WORD = 1500 // Time to show each word
 const TRANSITION_DURATION = 600 // Time to transition between words
-const FINAL_DISPLAY_DURATION = 3000 // Time to show final message
+const FINAL_DISPLAY_DURATION = 4000 // Time to show final message
+
+// Typewriter component for "WE ARE DOCKYARD"
+function TypewriterText({ text, isComplete }: { text: string; isComplete: boolean }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [showCursor, setShowCursor] = useState(true)
+
+  useEffect(() => {
+    if (!isComplete) {
+      setDisplayedText('')
+      return
+    }
+
+    let index = 0
+    setDisplayedText('')
+
+    const typeInterval = setInterval(() => {
+      if (index < text.length) {
+        setDisplayedText(text.slice(0, index + 1))
+        index++
+      } else {
+        clearInterval(typeInterval)
+      }
+    }, 80) // Typing speed
+
+    return () => clearInterval(typeInterval)
+  }, [isComplete, text])
+
+  // Cursor blink effect
+  useEffect(() => {
+    if (!isComplete) return
+
+    const blinkInterval = setInterval(() => {
+      setShowCursor((prev) => !prev)
+    }, 530)
+
+    return () => clearInterval(blinkInterval)
+  }, [isComplete])
+
+  return (
+    <>
+      {displayedText}
+      <motion.span
+        animate={{ opacity: showCursor ? 1 : 0 }}
+        transition={{ duration: 0 }}
+        className="inline-block w-[4px] h-[55px] bg-white ml-1 align-middle"
+      />
+    </>
+  )
+}
 
 export default function SlotMachineHero() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -115,13 +164,13 @@ export default function SlotMachineHero() {
                     damping: 20,
                     duration: 0.6,
                   }}
-                  className="flex"
+                  className="flex items-center"
                 >
                   <span className="text-[70px] font-semibold uppercase white-text-shadow-hero">
                     WE ARE{' '}
                   </span>
                   <span className="text-[70px] font-semibold uppercase text-gradient-hero">
-                    DOCKYARD
+                    <TypewriterText text="DOCKYARD" isComplete={isComplete} />
                   </span>
                 </motion.div>
               )}
