@@ -140,8 +140,6 @@ export default async function ProjectsPage({
         <div className="py-24">
           <CTA
             headline={ctaData.headline}
-            explanatoryText={ctaData.explanatoryText}
-            email={ctaData.email}
             buttonText={ctaData.buttonText}
             buttonLink={ctaData.buttonLink}
           />

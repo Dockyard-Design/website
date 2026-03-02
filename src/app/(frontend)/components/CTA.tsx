@@ -2,31 +2,20 @@
 
 import Link from 'next/link'
 import { Button } from './ui/Button'
-import { motion } from 'framer-motion'
 
 interface CTAProps {
   headline: string
-  explanatoryText: string
-  email: string
   buttonText: string
   buttonLink?: string
 }
 
 interface CTAProps {
   headline: string
-  explanatoryText: string
-  email: string
   buttonText: string
   buttonLink?: string
 }
 
-export default function CTA({
-  headline,
-  explanatoryText,
-  email,
-  buttonText,
-  buttonLink = '/contact',
-}: CTAProps) {
+export default function CTA({ headline, buttonText, buttonLink = '/contact' }: CTAProps) {
   return (
     <>
       <div className="flex items-center justify-center align-middle">
