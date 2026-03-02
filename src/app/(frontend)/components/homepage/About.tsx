@@ -44,7 +44,7 @@ function Typewriter({ text, speed = 40, className }: TypewriterProps) {
 
 export default function About() {
   return (
-    <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-20 overflow-hidden">
+    <section className="relative w-full min-h-screen flex flex-col items-center justify-center px-4 py-20">
       {/* Background effect (optional, can be removed if not needed) */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none">
         <Image
@@ -67,7 +67,7 @@ export default function About() {
           {/* Left Card */}
           {/* Finlay Card (Animated) */}
           <motion.div
-            initial={{ opacity: 0, x: -120 }}
+            initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ type: 'spring', stiffness: 80, damping: 18, duration: 0.9 }}
             className="relative flex flex-col items-center w-48"
@@ -103,7 +103,7 @@ export default function About() {
             </div>
           </motion.div>
           {/* Center Text */}
-          <div className="flex-1 flex flex-col items-center justify-center min-w-md px-2">
+          <div className="flex-1 flex flex-col items-center justify-center max-w-md px-2">
             <p className="text-base md:text-lg off-white-text-shadow-hero text-center font-medium mb-2">
               We are a collaborative duo of freelance experts in design and development. By pairing
               our individual strengths in UI/UX, Graphic Design, Animation, and Web Development,
@@ -115,7 +115,7 @@ export default function About() {
           {/* Right Card */}
           {/* Frederico Card (Animated) */}
           <motion.div
-            initial={{ opacity: 0, x: 120 }}
+            initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ type: 'spring', stiffness: 80, damping: 18, duration: 0.9, delay: 0.15 }}
             className="relative flex flex-col items-center w-48"

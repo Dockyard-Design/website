@@ -1,5 +1,3 @@
-'use client'
-
 import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 import HeroBlock from './blocks/HeroBlock'
@@ -40,29 +38,29 @@ function getBlockComponent(block: any) {
 export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
   const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
 
-  if (hasBlocks) {
-    return (
-      <Fragment>
-        {blocks.map((block, index) => {
-          const { blockType } = block
-
-          if (blockType && blockType in blockComponents) {
-            const { Component, props } = getBlockComponent(block)
-            const sectionId = blockTypeToId[blockType]
-
-            if (Component) {
-              return (
-                <section id={sectionId} key={index}>
-                  <Component {...props} />
-                </section>
-              )
-            }
-          }
-          return null
-        })}
-      </Fragment>
-    )
+  if (!hasBlocks) {
+    return null
   }
 
-  return null
+  return (
+    <Fragment>
+      {blocks.map((block, index) => {
+        const { blockType } = block
+
+        if (blockType && blockType in blockComponents) {
+          const { Component, props } = getBlockComponent(block)
+          const sectionId = blockTypeToId[blockType]
+
+          if (Component) {
+            return (
+              <section id={sectionId} key={index}>
+                <Component {...props} />
+              </section>
+            )
+          }
+        }
+        return null
+      })}
+    </Fragment>
+  )
 }

@@ -13,6 +13,7 @@ import { Pages } from './collections/Pages'
 import { Header } from './globals/Header'
 import { Footer } from './globals/Footer'
 import { SiteSettings } from './globals/SiteSettings'
+import { CTA } from './globals/CTA'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
@@ -39,7 +40,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Projects, Roles, Pages],
-  globals: [Header, Footer, SiteSettings],
+  globals: [Header, Footer, SiteSettings, CTA],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

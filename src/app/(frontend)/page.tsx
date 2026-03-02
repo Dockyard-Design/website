@@ -81,8 +81,8 @@ export default async function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-primary-gradient">
+    <div className="bg-primary-gradient">
       <RenderBlocks blocks={homePage.blocks} />
-    </main>
+    </div>
   )
 }

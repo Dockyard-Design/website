@@ -30,8 +30,18 @@ function isActive(href: string, pathname: string) {
 }
 
 // Handle smooth scrolling to anchor links
-function handleSmoothScroll(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+function handleSmoothScroll(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+  pathname: string,
+) {
   if (href.startsWith('/#')) {
+    // Only handle smooth scroll if we're on the home page
+    if (pathname !== '/') {
+      // Let the default navigation happen - it will go to home page
+      return
+    }
+
     e.preventDefault()
     const targetId = href.substring(2) // Remove '/#' to get just the ID
     const element = document.getElementById(targetId)
@@ -57,7 +67,7 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
   const pathname = usePathname()
 
   return (
-    <nav className="p-20 absolute left-80 z-1">
+    <nav className="p-20 absolute left-80 z-50">
       <div className="flex items-center justify-between gap-20">
         <div className="">
           <Link href="/" className="outline-none">
@@ -76,10 +86,14 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
             <Link
               key={index}
               href={link.link}
-              className={isActive(link.link, pathname) ? 'font-bold' : 'hover:font-semibold'}
+              className={
+                isActive(link.link, pathname)
+                  ? 'font-bold [text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+                  : 'hover:[text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+              }
               target={link.isExternal ? '_blank' : undefined}
               rel={link.isExternal ? 'noopener noreferrer' : undefined}
-              onClick={(e) => handleSmoothScroll(e, link.link)}
+              onClick={(e) => handleSmoothScroll(e, link.link, pathname)}
             >
               {link.label}
             </Link>

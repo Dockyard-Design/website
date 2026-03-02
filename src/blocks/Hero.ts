@@ -9,30 +9,6 @@ export const Hero: Block = {
   },
   fields: [
     {
-      name: 'animationType',
-      type: 'select',
-      defaultValue: 'static',
-      options: [
-        { label: 'Static (Default)', value: 'static' },
-        { label: 'Slot Machine', value: 'slotMachine' },
-      ],
-      label: 'Hero Animation Type',
-    },
-    {
-      name: 'backgroundImage',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Background Image',
-    },
-    {
-      name: 'backgroundImageOpacity',
-      type: 'number',
-      defaultValue: 100,
-      min: 0,
-      max: 100,
-      label: 'Background Image Opacity (%)',
-    },
-    {
       name: 'heroImage',
       type: 'upload',
       relationTo: 'media',
@@ -114,47 +90,7 @@ export const Hero: Block = {
         },
       ],
     },
-    {
-      name: 'headlines',
-      type: 'array',
-      label: 'Headline Lines',
-      minRows: 1,
-      maxRows: 5,
-      labels: {
-        singular: 'Line',
-        plural: 'Lines',
-      },
-      admin: {
-        condition: (data, siblingData) => siblingData?.animationType !== 'slotMachine',
-      },
-      fields: [
-        {
-          name: 'text',
-          type: 'text',
-          required: true,
-          label: 'Line Text',
-        },
-        {
-          name: 'style',
-          type: 'select',
-          required: true,
-          defaultValue: 'white',
-          options: [
-            { label: 'White (white-text-shadow-hero)', value: 'white' },
-            { label: 'Muted Blue (muted-text-shadow-hero)', value: 'muted' },
-            { label: 'Gradient (text-gradient-hero)', value: 'gradient' },
-            { label: 'Custom (use || syntax)', value: 'custom' },
-          ],
-          label: 'Text Style',
-        },
-        {
-          name: 'marginLeft',
-          type: 'text',
-          defaultValue: '0',
-          label: 'Left Margin in rem (e.g., 47, 12, 10.5)',
-        },
-      ],
-    },
+
     {
       name: 'subheadline',
       type: 'text',

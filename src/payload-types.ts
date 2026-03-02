@@ -97,11 +97,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     'site-settings': SiteSetting;
+    cta: Cta;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    cta: CtaSelect<false> | CtaSelect<true>;
   };
   locale: null;
   user: User;
@@ -445,9 +447,6 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
-  animationType?: ('static' | 'slotMachine') | null;
-  backgroundImage?: (number | null) | Media;
-  backgroundImageOpacity?: number | null;
   heroImage: number | Media;
   heroImagePosition?: {
     position?:
@@ -470,14 +469,6 @@ export interface HeroBlock {
     minWidth?: string | null;
     rotation?: number | null;
   };
-  headlines?:
-    | {
-        text: string;
-        style: 'white' | 'muted' | 'gradient' | 'custom';
-        marginLeft?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   subheadline: string;
   ctaButton: {
     text: string;
@@ -593,21 +584,7 @@ export interface AboutBlock {
       }[]
     | null;
   ctaSection: {
-    headline: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    };
+    headline: string;
     email: string;
     buttonText: string;
     buttonLink: string;
@@ -955,9 +932,6 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
-  animationType?: T;
-  backgroundImage?: T;
-  backgroundImageOpacity?: T;
   heroImage?: T;
   heroImagePosition?:
     | T
@@ -970,14 +944,6 @@ export interface HeroBlockSelect<T extends boolean = true> {
         maxWidth?: T;
         minWidth?: T;
         rotation?: T;
-      };
-  headlines?:
-    | T
-    | {
-        text?: T;
-        style?: T;
-        marginLeft?: T;
-        id?: T;
       };
   subheadline?: T;
   ctaButton?:
@@ -1201,6 +1167,33 @@ export interface SiteSetting {
   createdAt?: string | null;
 }
 /**
+ * Global CTA section configuration used across the site
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cta".
+ */
+export interface Cta {
+  id: number;
+  /**
+   * Main headline text for the CTA section
+   */
+  headline: string;
+  /**
+   * Email address displayed in the CTA
+   */
+  email: string;
+  /**
+   * Text displayed on the CTA button
+   */
+  buttonText: string;
+  /**
+   * URL the button links to
+   */
+  buttonLink: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
@@ -1262,6 +1255,19 @@ export interface FooterSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
   favicon?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cta_select".
+ */
+export interface CtaSelect<T extends boolean = true> {
+  headline?: T;
+  email?: T;
+  buttonText?: T;
+  buttonLink?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

@@ -92,6 +92,7 @@ export async function generateMetadata(): Promise<Metadata> {
     : '/favicon.ico'
 
   return {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
     icons: {
       icon: faviconUrl,
     },

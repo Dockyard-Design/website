@@ -82,8 +82,9 @@ export const About: Block = {
       fields: [
         {
           name: 'headline',
-          type: 'richText',
+          type: 'text',
           required: true,
+          defaultValue: 'ARE YOU READY FOR YOUR GREAT WEBSITE?',
           label: 'CTA Headline',
         },
         {

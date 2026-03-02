@@ -2,9 +2,11 @@ import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import Link from 'next/link'
-import { ArrowDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProjectCard from '../components/ProjectCard'
+import CTA from '../components/CTA'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import type { Cta } from '@/payload-types'
 
 interface SearchParams {
   page?: string
@@ -15,18 +17,24 @@ export default async function ProjectsPage({
 }: {
   searchParams: Promise<SearchParams>
 }) {
-  const payload = await getPayload({ config })
+  const payloadConfig = await config
+  const payload = await getPayload({ config: payloadConfig })
 
   const params = await searchParams
   const currentPage = parseInt(params.page || '1', 10)
   const limit = 3
 
-  const { docs, totalDocs } = await payload.find({
-    collection: 'projects',
-    depth: 1,
-    limit,
-    page: currentPage,
-  })
+  const [{ docs, totalDocs }, ctaData] = await Promise.all([
+    payload.find({
+      collection: 'projects',
+      depth: 1,
+      limit,
+      page: currentPage,
+    }),
+    payload.findGlobal({
+      slug: 'cta' as const,
+    }) as Promise<Cta>,
+  ])
 
   const totalPages = Math.ceil(totalDocs / limit)
 
@@ -35,7 +43,7 @@ export default async function ProjectsPage({
   }
 
   return (
-    <div className="min-h-screen pt-50">
+    <div className="pt-50">
       {/* Hero Section */}
       <div className="relative pt-16 pb-24 overflow-visible">
         {/* Glassmorphism background effect - extended beyond section */}
@@ -46,7 +54,7 @@ export default async function ProjectsPage({
 
         <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-tight mb-6">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold uppercase tracking-widest mb-6">
             <span className="text-gradient-hero">OUR PROJECTS</span>
           </h1>
 
@@ -126,6 +134,19 @@ export default async function ProjectsPage({
           </div>
         )}
       </div>
+
+      {/* CTA Section */}
+      {ctaData && (
+        <div className="py-24">
+          <CTA
+            headline={ctaData.headline}
+            explanatoryText={ctaData.explanatoryText}
+            email={ctaData.email}
+            buttonText={ctaData.buttonText}
+            buttonLink={ctaData.buttonLink}
+          />
+        </div>
+      )}
     </div>
   )
 }

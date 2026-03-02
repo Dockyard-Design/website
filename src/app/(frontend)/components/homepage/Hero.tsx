@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function Hero() {
   return (
-    <div className="h-screen w-full relative pt-50overflow-visible pt-80">
+    <div className="h-screen w-full relative pt-50 overflow-visible pt-80">
       <div className="absolute top-27 overflow-visible w-full h-full">
         <Image
           src="/images/hero-background.png"

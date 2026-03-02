@@ -113,7 +113,7 @@ export default function AboutBlock({
               style={{ width: '240px', height: '320px' }}
             >
               <div
-                className="rounded-2xl overflow-hidden w-45 h-60"
+                className="rounded-2xl overflow-hidden w-50 h-70"
                 style={{ transform: `rotate(${teamMembers[0].rotation}deg)` }}
               >
                 {teamMembers[0].photo && (
@@ -127,9 +127,9 @@ export default function AboutBlock({
                   />
                 )}
               </div>
-              <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">
+              <div className="absolute mt-78 flex flex-col items-start min-w-xs">
                 <motion.span
-                  className={`text-xs font-bold tracking-widest text-white pl-10 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  className={`text-lg font-bold tracking-widest text-white pl-24 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: teamMembers[0].animationDelay || 0 }}
@@ -137,7 +137,7 @@ export default function AboutBlock({
                   <Typewriter text={teamMembers[0].role.toUpperCase()} speed={50} />
                 </motion.span>
                 <motion.span
-                  className={`text-xs font-bold tracking-widest text-gradient-hero pl-11 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  className={`text-md font-bold tracking-widest text-gradient-hero pl-25 ${teamMembers[0].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: (teamMembers[0].animationDelay || 0) + 0.2 }}
@@ -173,7 +173,7 @@ export default function AboutBlock({
               style={{ width: '240px', height: '320px' }}
             >
               <div
-                className="rounded-2xl overflow-hidden w-45 h-60 mb-5"
+                className="rounded-2xl overflow-hidden w-50 h-70 "
                 style={{ transform: `rotate(${teamMembers[1].rotation}deg)` }}
               >
                 {teamMembers[1].photo && (
@@ -187,9 +187,9 @@ export default function AboutBlock({
                   />
                 )}
               </div>
-              <div className="absolute bottom-6 left-6 flex flex-col items-start w-full">
+              <div className="absolute mt-72 flex flex-col items-start min-w-xs">
                 <motion.span
-                  className={`text-xs font-bold tracking-widest text-white pb-2 pl-18 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  className={`text-lg font-bold tracking-widest text-white pb-2 pl-23 pt-2 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: teamMembers[1].animationDelay || 0 }}
@@ -197,7 +197,7 @@ export default function AboutBlock({
                   <Typewriter text={teamMembers[1].role.toUpperCase()} speed={50} />
                 </motion.span>
                 <motion.span
-                  className={`text-xs font-bold tracking-widest text-gradient-hero pl-4 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
+                  className={`text-md font-bold tracking-widest text-gradient-hero pl-6 ${teamMembers[1].rotation === '-10' ? '-rotate-10' : 'rotate-10'}`}
                   initial={{ opacity: 0, x: 10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, delay: (teamMembers[1].animationDelay || 0) + 0.2 }}
@@ -210,17 +210,28 @@ export default function AboutBlock({
         </div>
 
         {ctaSection && (
-          <div className="relative flex flex-col items-center mt-10">
+          <div className="relative flex flex-col items-center mt-60 max-w-90">
             <h2 className="text-2xl md:text-3xl font-bold text-center mb-2 off-white-text-shadow-hero">
-              {extractText(ctaSection.headline)}
+              {ctaSection.headline}
             </h2>
             <Link
               href={`mailto:${ctaSection.email}`}
-              className="text-gradient-hero text-lg md:text-xl font-semibold underline underline-offset-4 mb-6 hover:text-[#E45DFF] transition-colors"
+              className="text-white text-xl group inline-flex hover:text-[#00CDF4] transition-colors duration-300 mb-6 mt-10"
             >
-              {ctaSection.email}
+              {ctaSection.email.split('').map((char, index) => (
+                <span
+                  key={index}
+                  className="inline-block transition-transform duration-300 ease-in-out group-hover:animate-wave"
+                  style={{
+                    animationDelay: `${index * 50}ms`,
+                    display: 'inline-block',
+                  }}
+                >
+                  {char === ' ' ? '\u00A0' : char}
+                </span>
+              ))}
             </Link>
-            <Button variant="glower" size="lg-rounded" className="w-50 uppercase">
+            <Button variant="glower" size="xl" className="w-50 uppercase mt-2">
               {ctaSection.buttonText}
             </Button>
           </div>
