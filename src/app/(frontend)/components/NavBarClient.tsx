@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Button } from './ui/Button'
+import { useState } from 'react'
 
 interface NavLink {
   label: string
@@ -65,43 +66,127 @@ function handleSmoothScroll(
 
 export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarClientProps) {
   const pathname = usePathname()
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <nav className="p-20 absolute left-80 z-50">
-      <div className="flex items-center justify-between gap-20">
-        <div className="">
-          <Link href="/" className="outline-none">
-            <Image
-              src={logoUrl}
-              alt="Dockyard Logo"
-              width={250}
-              height={100}
-              className="object-contain w-auto h-auto"
-              priority
-            />
-          </Link>
-        </div>
-        <div className="tracking-widest flex gap-8 pl-40 pr-40 text-lg font-light">
-          {navLinks.map((link, index) => (
-            <Link
-              key={index}
-              href={link.link}
-              className={
-                isActive(link.link, pathname)
-                  ? 'font-bold [text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
-                  : 'hover:[text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
-              }
-              target={link.isExternal ? '_blank' : undefined}
-              rel={link.isExternal ? 'noopener noreferrer' : undefined}
-              onClick={(e) => handleSmoothScroll(e, link.link, pathname)}
-            >
-              {link.label}
+    <nav className="relative z-50">
+      {/* Desktop Navigation - unchanged positioning */}
+      <div className="hidden md:block p-20 absolute left-80">
+        <div className="flex items-center justify-between gap-20">
+          <div className="">
+            <Link href="/" className="outline-none">
+              <Image
+                src={logoUrl}
+                alt="Dockyard Logo"
+                width={250}
+                height={100}
+                className="object-contain w-auto h-auto"
+                priority
+              />
             </Link>
-          ))}
+          </div>
+
+          <div className="tracking-widest flex gap-8 pl-40 pr-40 text-lg font-light">
+            {navLinks.map((link, index) => (
+              <Link
+                key={index}
+                href={link.link}
+                className={
+                  isActive(link.link, pathname)
+                    ? 'font-bold [text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+                    : 'hover:[text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+                }
+                target={link.isExternal ? '_blank' : undefined}
+                rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                onClick={(e) => handleSmoothScroll(e, link.link, pathname)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <Button className="ml-auto mr-40" variant="glower" size="lg-rounded">
+            <Link href={ctaButton.link}>{ctaButton.text}</Link>
+          </Button>
         </div>
-        <Button className="ml-auto mr-40" variant="glower" size="lg-rounded">
-          <Link href={ctaButton.link}>{ctaButton.text}</Link>
-        </Button>
+      </div>
+
+      {/* Mobile Navigation - full screen menu */}
+      <div className="md:hidden relative">
+        <div className="flex items-center justify-between px-6 py-4">
+          <div className="">
+            <Link href="/" className="outline-none">
+              <Image
+                src={logoUrl}
+                alt="Dockyard Logo"
+                width={250}
+                height={100}
+                className="object-contain w-auto h-auto"
+                priority
+              />
+            </Link>
+          </div>
+
+          <button
+            className="p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <div className="w-6 h-6 flex flex-col justify-center items-center">
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-1.5 ${isMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+            </div>
+          </button>
+        </div>
+
+        {/* Mobile Menu - Full Screen */}
+        {isMenuOpen && (
+          <div className="fixed inset-0 bg-primary-gradient flex flex-col items-center justify-center z-50">
+            <button
+              className="absolute top-6 right-6 p-4"
+              onClick={() => setIsMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Mobile Navigation Links */}
+            <div className="flex flex-col items-center gap-8 mt-16">
+              {navLinks.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link.link}
+                  className={
+                    isActive(link.link, pathname)
+                      ? 'text-xl font-bold [text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+                      : 'text-xl hover:[text-shadow:0_0_0.5px_white,0_0_0.5px_white]'
+                  }
+                  target={link.isExternal ? '_blank' : undefined}
+                  rel={link.isExternal ? 'noopener noreferrer' : undefined}
+                  onClick={(e) => {
+                    handleSmoothScroll(e, link.link, pathname)
+                    setIsMenuOpen(false)
+                  }}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Mobile CTA Button */}
+            <Button
+              className="mt-16 px-8 py-4"
+              variant="glower"
+              size="lg-rounded"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <Link href={ctaButton.link}>{ctaButton.text}</Link>
+            </Button>
+          </div>
+        )}
       </div>
     </nav>
   )
