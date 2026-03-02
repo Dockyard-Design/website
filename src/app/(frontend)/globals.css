@@ -12,6 +12,16 @@ body {
   overflow-x: hidden;
 }
 
+/* Gradient sweep animation for slot machine */
+@keyframes gradientSweep {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: 0% 0;
+  }
+}
+
 /* Wave animation for email text */
 @keyframes wave {
   0% {
@@ -73,6 +83,45 @@ body {
     -3px -3px 10px rgba(255, 255, 255, 0.25),
     4px 4px 6px rgba(0, 0, 0, 0.1),
     0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+@utility text-gradient-hero-animate {
+  background: linear-gradient(90deg, #00cbf4 0%, #e45dff 50%, #00cbf4 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  text-shadow:
+    -3px -3px 10px rgba(255, 255, 255, 0.25),
+    4px 4px 6px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+  background-size: 200% 100%;
+  animation: gradientSweep 0.8s ease-out forwards;
+}
+
+/* Muted gradient animation - sweeps left to right with opacity */
+@utility muted-gradient-animate {
+  background: linear-gradient(90deg, #73809a 0%, #a0aec0 50%, #73809a 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  animation: mutedGradientSweep 0.6s ease-out forwards;
+}
+
+@keyframes mutedGradientSweep {
+  0% {
+    background-position: 100% 0;
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    background-position: 0% 0;
+    opacity: 0.5;
+  }
 }
 
 @utility footer-top-glow {

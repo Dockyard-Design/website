@@ -1,15 +1,31 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence, useSpring, useMotionValue } from 'framer-motion'
+import { useState, useEffect, useMemo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '../ui/Button'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { HeroBlock } from '@/payload-types'
 
-const SLOT_WORDS = ['PROTOTYPE', 'DESIGN', 'BUILD', 'SHIP']
-const SPIN_DURATION = 600
-const SETTLE_TIME = 1000
+// The 4 main words we land on (in order)
+const MAIN_WORDS = ['PROTOTYPE', 'DESIGN', 'BUILD', 'SHIP']
+// Filler words that appear during spin (never landed on)
+const FILLER_WORDS = [
+  'DEPLOY',
+  'SCALE',
+  'GROW',
+  'LAUNCH',
+  'CREATE',
+  'INNOVATE',
+  'DEVELOP',
+  'SHIP',
+  'BUILD',
+  'DESIGN',
+]
+
+const WORD_HEIGHT = 100
+const SPIN_DURATION = 2000 // Fast spin
+const SETTLE_DURATION = 1350 // Time to settle
 
 // Typewriter component for "WE ARE DOCKYARD"
 function TypewriterText({ text, isComplete }: { text: string; isComplete: boolean }) {
@@ -32,30 +48,27 @@ function TypewriterText({ text, isComplete }: { text: string; isComplete: boolea
       } else {
         clearInterval(typeInterval)
       }
-    }, 80) // Typing speed
+    }, 80)
 
     return () => clearInterval(typeInterval)
   }, [isComplete, text])
 
-  // Cursor blink effect
   useEffect(() => {
     if (!isComplete) return
-
     const blinkInterval = setInterval(() => {
       setShowCursor((prev) => !prev)
     }, 530)
-
     return () => clearInterval(blinkInterval)
   }, [isComplete])
 
   return (
     <>
       {displayedText}
-      <motion.span
+      {/*<motion.span
         animate={{ opacity: showCursor ? 1 : 0 }}
         transition={{ duration: 0 }}
-        className="inline-block w-[4px] h-[55px] bg-white ml-1 align-middle"
-      />
+        className="inline-block w-[2px] h-[55px] bg-white ml-1 mb-2 align-middle"
+      />*/}
     </>
   )
 }
@@ -114,7 +127,6 @@ export default function HeroBlock({
     return { marginLeft: `${value}rem` }
   }
 
-  // Get hero image position, sizing, and rotation styles
   const getHeroImageStyles = () => {
     const position = heroImagePosition?.position || 'right-center'
     const width = heroImagePosition?.width || '28vw'
@@ -185,63 +197,87 @@ export default function HeroBlock({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFinal, setIsFinal] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false)
-  const [scrambleWords, setScrambleWords] = useState<[string, string, string]>(['', '', ''])
+  const [spinWords, setSpinWords] = useState<string[]>([])
+  const [hasCompleted, setHasCompleted] = useState(false)
+  const [displayTopWord, setDisplayTopWord] = useState<string>('')
+  const [displayBottomWord, setDisplayBottomWord] = useState<string>('')
 
-  // Get the three words to display based on current index (with wrap-around)
-  const getDisplayWords = (index: number): [string, string, string] => {
-    const prevIndex = index === 0 ? SLOT_WORDS.length - 1 : index - 1
-    const nextIndex = index === SLOT_WORDS.length - 1 ? 0 : index + 1
-    return [SLOT_WORDS[prevIndex], SLOT_WORDS[index], SLOT_WORDS[nextIndex]]
+  // Get random word that's different from excluded words
+  const getRandomWord = (excludedWords: string[]): string => {
+    const available = FILLER_WORDS.filter((w) => !excludedWords.includes(w))
+    if (available.length === 0) return FILLER_WORDS[0]
+    return available[Math.floor(Math.random() * available.length)]
   }
 
-  // Track if animation has completed
-  const [hasCompleted, setHasCompleted] = useState(false)
+  // Generate random spin sequence ending with target word
+  const generateSpinSequence = (targetWord: string): string[] => {
+    const sequence: string[] = []
+    // Add 15-25 random filler words
+    const spinCount = 15 + Math.floor(Math.random() * 10)
+    for (let i = 0; i < spinCount; i++) {
+      sequence.push(FILLER_WORDS[Math.floor(Math.random() * FILLER_WORDS.length)])
+    }
+    // End with the target word
+    sequence.push(targetWord)
+    return sequence
+  }
 
-  // Spin and cycle - only plays once
+  // Spin animation
   useEffect(() => {
     if (animationType !== 'slotMachine') return
     if (isFinal) {
       setHasCompleted(true)
-      return // Animation complete, stay on final message
+      return
     }
-    if (hasCompleted) return // Prevent restart
+    if (hasCompleted) return
 
     const runSequence = async () => {
-      // Start spinning
+      const targetWord = MAIN_WORDS[currentIndex]
+      const sequence = generateSpinSequence(targetWord)
+      setSpinWords(sequence)
+
       setIsSpinning(true)
 
-      // Scramble for spin duration
-      const scrambleInterval = setInterval(() => {
-        setScrambleWords([
-          SLOT_WORDS[Math.floor(Math.random() * SLOT_WORDS.length)],
-          SLOT_WORDS[Math.floor(Math.random() * SLOT_WORDS.length)],
-          SLOT_WORDS[Math.floor(Math.random() * SLOT_WORDS.length)],
-        ])
-      }, 50) // Faster scramble
-
-      // Stop after spin duration
+      // Fast spin duration
       await new Promise((resolve) => setTimeout(resolve, SPIN_DURATION))
-      clearInterval(scrambleInterval)
       setIsSpinning(false)
 
-      // Wait settled time then move to next
-      const timer = setTimeout(() => {
-        if (currentIndex < SLOT_WORDS.length - 1) {
-          setCurrentIndex((prev) => prev + 1)
-        } else {
-          setIsFinal(true)
-        }
-      }, SETTLE_TIME)
+      // Settle time before next
+      await new Promise((resolve) => setTimeout(resolve, SETTLE_DURATION))
 
-      return () => clearTimeout(timer)
+      if (currentIndex < MAIN_WORDS.length - 1) {
+        setCurrentIndex((prev) => prev + 1)
+      } else {
+        setIsFinal(true)
+      }
     }
 
     runSequence()
   }, [currentIndex, isFinal, animationType, hasCompleted])
 
-  const [topWord, middleWord, bottomWord] = isSpinning
-    ? scrambleWords
-    : getDisplayWords(currentIndex)
+  // Get display words (previous, current, next)
+  const getDisplayWords = (): [string, string, string] => {
+    const prevIndex = currentIndex === 0 ? MAIN_WORDS.length - 1 : currentIndex - 1
+    const nextIndex = currentIndex === MAIN_WORDS.length - 1 ? 0 : currentIndex + 1
+    return [MAIN_WORDS[prevIndex], MAIN_WORDS[currentIndex], MAIN_WORDS[nextIndex]]
+  }
+
+  const [, middleWord] = getDisplayWords()
+
+  // Generate unique top and bottom words when middle word changes
+  useEffect(() => {
+    if (animationType !== 'slotMachine' || isSpinning) return
+
+    // Top word - different from middle
+    const topOptions = FILLER_WORDS.filter((w) => w !== middleWord)
+    const newTop = topOptions[Math.floor(Math.random() * topOptions.length)]
+    setDisplayTopWord(newTop)
+
+    // Bottom word - different from middle and top
+    const bottomOptions = FILLER_WORDS.filter((w) => w !== middleWord && w !== newTop)
+    const newBottom = bottomOptions[Math.floor(Math.random() * bottomOptions.length)]
+    setDisplayBottomWord(newBottom)
+  }, [currentIndex, middleWord, animationType, isSpinning])
 
   // Render slot machine animation
   if (animationType === 'slotMachine') {
@@ -302,53 +338,100 @@ export default function HeroBlock({
                 <span className="ml-47 text-[70px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[70px] flex items-center"></span>
               </motion.div>
             ) : (
-              <motion.div key="slot-machine" className="flex flex-col">
-                {/* Top word - ml-47 muted (blank space when no word) */}
+              <motion.div
+                key="slot-machine"
+                className="flex flex-col items-start"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {/* Top muted word - hidden during spin, animates in when landing */}
                 <motion.span
-                  className="ml-47 text-[70px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[70px] flex items-center"
+                  key={`top-${currentIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={{
-                    filter: isSpinning ? 'blur(4px)' : 'blur(0px)',
-                    scale: isSpinning ? 0.95 : 1,
+                    opacity: isSpinning ? 0 : 0.5,
+                    x: isSpinning ? -20 : 0,
                   }}
                   transition={{
-                    duration: 0.3,
+                    duration: isSpinning ? 0.2 : 0.6,
                     ease: 'easeOut',
+                    delay: isSpinning ? 0 : 0.2,
                   }}
+                  className="ml-47 text-[70px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[70px] flex items-center"
                 >
-                  {topWord}
+                  {displayTopWord}
                 </motion.span>
 
-                {/* Middle word - ml-12 WE + gradient - NO BLUR ON WE */}
-                <span className="ml-12 text-[70px] uppercase font-semibold flex items-center h-[70px]">
+                {/* Middle row with "WE" and slot machine window */}
+                <div className="ml-12 text-[70px] uppercase font-semibold flex items-center h-[70px]">
                   <span className="white-text-shadow-hero">WE </span>
-                  <motion.span
-                    className="text-gradient-hero ml-2"
-                    animate={{
-                      filter: isSpinning ? 'blur(4px)' : 'blur(0px)',
-                      scale: isSpinning ? 0.95 : 1,
-                    }}
-                    transition={{
-                      duration: 0.3,
-                      ease: 'easeOut',
-                    }}
-                  >
-                    {middleWord}
-                  </motion.span>
-                </span>
 
-                {/* Bottom word - ml-47 muted (blank space when no word) */}
+                  {/* Slot Machine Window */}
+                  <div
+                    className="relative ml-2 overflow-hidden"
+                    style={{ height: WORD_HEIGHT * 3 }}
+                  >
+                    {isSpinning ? (
+                      <motion.div
+                        className="flex flex-col"
+                        style={{ paddingTop: WORD_HEIGHT }}
+                        animate={{
+                          y: [0, -WORD_HEIGHT * (spinWords.length - 1)],
+                        }}
+                        transition={{
+                          y: {
+                            duration: SPIN_DURATION / 1000,
+                            ease: [0.2, 0.8, 0.2, 1],
+                          },
+                        }}
+                      >
+                        {spinWords.map((word, idx) => (
+                          <span
+                            key={`${word}-${idx}`}
+                            className="white-text-shadow-hero h-[70px] flex items-center whitespace-nowrap"
+                            style={{ height: WORD_HEIGHT }}
+                          >
+                            {word}
+                          </span>
+                        ))}
+                      </motion.div>
+                    ) : (
+                      <motion.span
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 20,
+                        }}
+                        className="text-gradient-hero-animate h-[70px] flex items-center"
+                        style={{
+                          height: WORD_HEIGHT,
+                          marginTop: WORD_HEIGHT,
+                        }}
+                      >
+                        {middleWord}
+                      </motion.span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom muted word - hidden during spin, animates in when landing */}
                 <motion.span
-                  className="ml-47 text-[70px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[70px] flex items-center"
+                  key={`bottom-${currentIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
                   animate={{
-                    filter: isSpinning ? 'blur(4px)' : 'blur(0px)',
-                    scale: isSpinning ? 0.95 : 1,
+                    opacity: isSpinning ? 0 : 0.5,
+                    x: isSpinning ? -20 : 0,
                   }}
                   transition={{
-                    duration: 0.3,
+                    duration: isSpinning ? 0.2 : 0.6,
                     ease: 'easeOut',
+                    delay: isSpinning ? 0 : 0.3,
                   }}
+                  className="ml-47 text-[70px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[70px] flex items-center"
                 >
-                  {bottomWord}
+                  {displayBottomWord}
                 </motion.span>
               </motion.div>
             )}
