@@ -41,7 +41,7 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
         )}
       </h1>
 
-      <div className="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4 md:gap-x-12 md:gap-y-8 w-full max-w-6xl mx-auto">
+      <div className="mt-20 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4 md:gap-x-40 md:gap-y-8 w-full max-w-8xl mx-auto">
         {steps?.map((step: any, index: number) => (
           <React.Fragment key={index}>
             <motion.div
@@ -49,25 +49,25 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.15 }}
               viewport={{ once: true, amount: 0.4 }}
-              className="flex flex-col items-center text-center"
+              className="flex flex-col items-center text-center h-[480px] md:h-[560px]"
             >
               {step.icon && (
                 <Image
                   src={getImageUrl(step.icon)}
                   alt={`${step.title} icon`}
-                  width={100}
-                  height={100}
-                  className="object-contain h-auto w-auto mb-4"
+                  width={250}
+                  height={250}
+                  className="object-contain h-[220px] w-auto mb-4 flex-shrink-0"
                   priority
                 />
               )}
               <h2
-                className="text-2xl font-extrabold mb-2 tracking-wide white-text-shadow-no-bg"
+                className="text-4xl font-extrabold mb-2 tracking-wide white-text-shadow-no-bg flex-shrink-0"
                 style={{ backgroundColor: step.color }}
               >
                 {step.title}
               </h2>
-              <p className="text-md off-white-text-shadow-steps font-semibold leading-snug">
+              <p className="text-xl off-white-text-shadow-steps font-semibold leading-relaxed flex-shrink-0">
                 {step.description}
               </p>
             </motion.div>
