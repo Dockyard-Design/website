@@ -448,27 +448,6 @@ export interface Page {
  */
 export interface HeroBlock {
   heroImage: number | Media;
-  heroImagePosition?: {
-    position?:
-      | (
-          | 'right-center'
-          | 'right-top'
-          | 'right-bottom'
-          | 'left-center'
-          | 'left-top'
-          | 'left-bottom'
-          | 'center'
-          | 'custom'
-        )
-      | null;
-    customTop?: string | null;
-    customRight?: string | null;
-    customLeft?: string | null;
-    width?: string | null;
-    maxWidth?: string | null;
-    minWidth?: string | null;
-    rotation?: number | null;
-  };
   subheadline: string;
   ctaButton: {
     text: string;
@@ -933,18 +912,6 @@ export interface PagesSelect<T extends boolean = true> {
  */
 export interface HeroBlockSelect<T extends boolean = true> {
   heroImage?: T;
-  heroImagePosition?:
-    | T
-    | {
-        position?: T;
-        customTop?: T;
-        customRight?: T;
-        customLeft?: T;
-        width?: T;
-        maxWidth?: T;
-        minWidth?: T;
-        rotation?: T;
-      };
   subheadline?: T;
   ctaButton?:
     | T

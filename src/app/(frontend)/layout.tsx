@@ -72,6 +72,8 @@ const avenirNext = localFont({
     },
   ],
   variable: '--font-sans',
+  display: 'swap',
+  preload: false,
 })
 
 import { Metadata } from 'next'

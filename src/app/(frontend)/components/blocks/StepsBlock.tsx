@@ -41,8 +41,7 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
         )}
       </h1>
 
-      <div className="mt-12 grid grid-cols-1 grid-rows-2 gap-y-8 gap-x-6 md:grid-cols-4 md:grid-rows-2 md:gap-x-12 md:gap-y-8 w-full max-w-6xl mx-auto">
-        {/* Top row: images with animation */}
+      <div className="mt-12 grid grid-cols-1 gap-y-8 gap-x-6 md:grid-cols-4 md:gap-x-12 md:gap-y-8 w-full max-w-6xl mx-auto">
         {steps?.map((step: any, index: number) => (
           <React.Fragment key={index}>
             <motion.div
@@ -50,7 +49,7 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: 'easeOut', delay: index * 0.15 }}
               viewport={{ once: true, amount: 0.4 }}
-              className="flex items-center justify-center"
+              className="flex flex-col items-center text-center"
             >
               {step.icon && (
                 <Image
@@ -58,34 +57,21 @@ export default function StepsBlock({ title, steps }: StepsBlockType) {
                   alt={`${step.title} icon`}
                   width={100}
                   height={100}
-                  className="object-contain h-auto w-auto"
+                  className="object-contain h-auto w-auto mb-4"
                   priority
                 />
               )}
+              <h2
+                className="text-2xl font-extrabold mb-2 tracking-wide white-text-shadow-no-bg"
+                style={{ backgroundColor: step.color }}
+              >
+                {step.title}
+              </h2>
+              <p className="text-md off-white-text-shadow-steps font-semibold leading-snug">
+                {step.description}
+              </p>
             </motion.div>
           </React.Fragment>
-        ))}
-
-        {/* Bottom row: text with animation */}
-        {steps?.map((step: any, index: number) => (
-          <motion.div
-            key={`text-${index}`}
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: index * 0.15 }}
-            viewport={{ once: true }}
-            className="flex flex-col items-center text-center max-w-3/4 w-full mx-auto"
-          >
-            <h2
-              className="text-2xl font-extrabold mb-2 tracking-wide white-text-shadow-no-bg"
-              style={{ backgroundColor: step.color }}
-            >
-              {step.title}
-            </h2>
-            <p className="text-md off-white-text-shadow-steps font-semibold leading-snug">
-              {step.description}
-            </p>
-          </motion.div>
         ))}
       </div>
     </div>

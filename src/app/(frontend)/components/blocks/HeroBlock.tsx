@@ -106,58 +106,6 @@ export default function HeroBlock({
   const heroUrl = getImageUrl(heroImage)
   const heroDimensions = getImageDimensions(heroImage)
 
-  const getHeroImagePositionStyles = () => {
-    const position = heroImagePosition?.position || 'right-center'
-    const rotation = -19
-
-    const rotationTransform = `rotate(${rotation}deg)`
-
-    switch (position) {
-      case 'right-top':
-        return { right: '0', top: '0', transform: rotationTransform }
-      case 'right-bottom':
-        return { right: '0', bottom: '0', transform: rotationTransform }
-      case 'right-center':
-        return {
-          right: '0',
-          top: '61.5%',
-          transform: `translateY(-50%) ${rotationTransform}`,
-        }
-      case 'left-top':
-        return { left: '0', top: '0', transform: rotationTransform }
-      case 'left-bottom':
-        return { left: '0', bottom: '0', transform: rotationTransform }
-      case 'left-center':
-        return {
-          left: '0',
-          top: '50%',
-          transform: `translateY(-50%) ${rotationTransform}`,
-        }
-      case 'center':
-        return {
-          left: '50%',
-          top: '50%',
-          transform: `translate(-50%, -50%) ${rotationTransform}`,
-        }
-      case 'custom':
-        return {
-          top: heroImagePosition?.customTop || '50%',
-          right: heroImagePosition?.customRight || 'auto',
-          left: heroImagePosition?.customLeft || 'auto',
-          transform: `translateY(-50%) ${rotationTransform}`,
-        }
-      default:
-        return {
-          right: '0',
-          top: '61.5%',
-          transform: `translateY(-50%) ${rotationTransform}`,
-        }
-    }
-  }
-
-  const heroImagePositionStyles = getHeroImagePositionStyles()
-
-  // Slot Machine State
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFinal, setIsFinal] = useState(false)
   const [isSpinning, setIsSpinning] = useState(false)
@@ -245,7 +193,7 @@ export default function HeroBlock({
 
       {/* Hero background with gradient fade to transparent */}
       <div
-        className="absolute top-48 left-0 right-0 bottom-0"
+        className="absolute top-0 md:top-45 left-0 right-0 bottom-0"
         style={{
           background: `linear-gradient(
             to bottom,
@@ -262,10 +210,12 @@ export default function HeroBlock({
           alt="Hero"
           width={heroDimensions.width}
           height={heroDimensions.height}
-          className="absolute opacity-50 z-10 h-auto pointer-events-none select-none object-cover
-            !w-[60vw] !max-w-[350px] !min-w-[150px]
-            sm:!w-auto sm:!max-w-none sm:!min-w-0"
-          style={heroImagePositionStyles}
+          className="absolute opacity-50 h-auto w-auto pointer-events-none select-none object-cover"
+          style={{
+            left: '50%',
+            top: '60%',
+            transform: 'translate(-50%, -50%) rotate(-19deg)',
+          }}
           priority
         />
       )}
@@ -312,7 +262,7 @@ export default function HeroBlock({
 
                   {/* Slot Machine Window with mask-based fade */}
                   <div
-                    className="relative ml-2 overflow-hidden"
+                    className="relative ml-2 overflow-hidden whitespace-nowrap"
                     style={{
                       height: 330,
                       maskImage: isSpinning
@@ -461,10 +411,10 @@ export default function HeroBlock({
         </AnimatePresence>
       </div>
 
-      {/* Mobile Layout - Animation top, content bottom */}
-      <div className="flex sm:hidden flex-col h-full z-20 relative px-4">
-        {/* Animation at top */}
-        <div className="flex-1 flex flex-col justify-center items-center pt-16">
+      {/* Mobile Layout - Animation aligned same as desktop, content centered below */}
+      <div className="flex sm:hidden flex-col h-full z-20 relative px-4 items-center justify-center">
+        {/* Animation positioned same relative to top-left as desktop */}
+        <div className="mb-6 flex flex-col items-center w-full">
           <AnimatePresence mode="wait">
             {isFinal ? (
               <motion.div
@@ -477,30 +427,56 @@ export default function HeroBlock({
                   type: 'tween',
                 }}
                 className="flex flex-col items-center"
+                style={{ height: 280 }}
               >
-                <p className="text-[32px] uppercase font-semibold flex items-center h-[40px]">
+                {/* Blank top space */}
+                <span className="text-center text-[36px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[56px] flex items-center justify-center"></span>
+
+                <p className="text-center text-[36px] uppercase font-semibold flex items-center justify-center h-[56px]">
                   <span className="white-text-shadow-hero">WE </span>
-                  <span className="text-gradient-hero flex items-center">
+                  <span className="text-gradient-hero flex items-center justify-center">
                     <TypewriterText text="&nbsp;ARE DOCKYARD" isComplete={isFinal} />
                   </span>
                 </p>
+
+                {/* Blank bottom space */}
+                <span className="text-center text-[36px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[56px] flex items-center justify-center"></span>
               </motion.div>
             ) : (
               <motion.div
                 key="slot-machine"
-                className="flex flex-col items-center"
+                className="flex flex-col items-start w-full"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                style={{ height: 280 }}
               >
+                {/* Top muted word - hidden during spin */}
+                <motion.span
+                  key={`top-${currentIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{
+                    opacity: isSpinning ? 0 : 0.5,
+                    x: isSpinning ? -20 : 0,
+                  }}
+                  transition={{
+                    duration: isSpinning ? 0.2 : 0.6,
+                    ease: 'easeOut',
+                    delay: isSpinning ? 0 : 0.2,
+                  }}
+                  className="ml-8 text-[36px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[56px] flex items-center"
+                >
+                  {displayTopWord}
+                </motion.span>
+
                 {/* Middle row with "WE" and slot machine window */}
-                <div className="text-[32px] uppercase font-semibold flex items-center h-[40px]">
+                <div className="ml-4 text-[36px] uppercase font-semibold flex items-center h-[56px]">
                   <span className="white-text-shadow-hero">WE </span>
 
                   {/* Slot Machine Window with mask-based fade */}
                   <div
-                    className="relative ml-1 overflow-hidden"
+                    className="relative ml-2 overflow-hidden whitespace-nowrap"
                     style={{
-                      height: 120,
+                      height: 168,
                       maskImage: isSpinning
                         ? 'linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)'
                         : 'none',
@@ -512,9 +488,9 @@ export default function HeroBlock({
                     {isSpinning ? (
                       <motion.div
                         className="flex flex-col"
-                        style={{ paddingTop: 40 }}
+                        style={{ paddingTop: 56 }}
                         animate={{
-                          y: [0, -40 * (spinWords.length - 1)],
+                          y: [0, -56 * (spinWords.length - 1)],
                         }}
                         transition={{
                           y: {
@@ -526,7 +502,7 @@ export default function HeroBlock({
                         {spinWords.map((word, idx) => (
                           <span
                             key={`${word}-${idx}`}
-                            className="white-text-shadow-hero h-[40px] flex items-center whitespace-nowrap text-[32px]"
+                            className="white-text-shadow-hero h-[56px] flex items-center justify-center whitespace-nowrap text-[36px]"
                           >
                             {word}
                           </span>
@@ -539,9 +515,9 @@ export default function HeroBlock({
                         transition={{
                           type: 'tween',
                         }}
-                        className="text-gradient-hero-animate flex items-center text-[32px] h-[40px]"
+                        className="text-gradient-hero-animate flex items-center text-[36px] h-[56px]"
                         style={{
-                          marginTop: 40,
+                          marginTop: 56,
                         }}
                       >
                         {middleWord}
@@ -549,29 +525,47 @@ export default function HeroBlock({
                     )}
                   </div>
                 </div>
+
+                {/* Bottom muted word - hidden during spin, animates in when landing */}
+                <motion.span
+                  key={`bottom-${currentIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{
+                    opacity: isSpinning ? 0 : 0.5,
+                    x: isSpinning ? -20 : 0,
+                  }}
+                  transition={{
+                    duration: isSpinning ? 0.2 : 0.6,
+                    ease: 'easeOut',
+                    delay: isSpinning ? 0 : 0.3,
+                  }}
+                  className="ml-8 text-[36px] font-semibold uppercase text-[#73809A] muted-text-shadow-hero h-[56px] flex items-center"
+                >
+                  {displayBottomWord}
+                </motion.span>
               </motion.div>
             )}
           </AnimatePresence>
+        </div>
 
-          {/* Content at bottom */}
-          <div className="flex flex-col">
-            <span className="tracking-widest text-center text-base font-bold text-brand-gradient">
-              {subheadline}
-            </span>
-            {ctaButton && (
-              <Button variant="glower" size="xl" className="w-48 uppercase">
-                {ctaButton.text}
-              </Button>
-            )}
-            {secondaryLink && (
-              <Link
-                href={secondaryLink.url || '#'}
-                className="tracking-normal text-center text-base hover:underline pt-4"
-              >
-                <span>{secondaryLink.text}</span>
-              </Link>
-            )}
-          </div>
+        {/* Content below animation - centered */}
+        <div className="flex flex-col items-center text-center">
+          <span className="tracking-widest text-center text-lg font-bold text-brand-gradient px-4 mb-4">
+            {subheadline}
+          </span>
+          {ctaButton && (
+            <Button variant="glower" size="xl" className="w-full max-w-[240px] uppercase text-base">
+              {ctaButton.text}
+            </Button>
+          )}
+          {secondaryLink && (
+            <Link
+              href={secondaryLink.url || '#'}
+              className="tracking-normal text-center text-base hover:underline pt-3"
+            >
+              <span>{secondaryLink.text}</span>
+            </Link>
+          )}
         </div>
       </div>
     </div>

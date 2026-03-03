@@ -119,9 +119,9 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
               <Image
                 src={logoUrl}
                 alt="Dockyard Logo"
-                width={250}
+                width={100}
                 height={100}
-                className="object-contain w-auto h-auto"
+                className="object-contain w-auto h-auto p-6"
                 priority
               />
             </Link>
@@ -133,9 +133,15 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
             aria-label="Toggle menu"
           >
             <div className="w-6 h-6 flex flex-col justify-center items-center">
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-1.5 ${isMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+              <span
+                className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`}
+              />
+              <span
+                className={`bg-white block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-1.5 ${isMenuOpen ? 'opacity-0' : ''}`}
+              />
+              <span
+                className={`bg-white block transition-all duration-300 ease-out h-0.5 w-4 rounded-sm ml-2 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`}
+              />
             </div>
           </button>
         </div>
@@ -148,8 +154,19 @@ export default function NavBarClient({ logoUrl, navLinks, ctaButton }: NavBarCli
               onClick={() => setIsMenuOpen(false)}
               aria-label="Close menu"
             >
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg
+                className="w-8 h-8 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
               </svg>
             </button>
 

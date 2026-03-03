@@ -105,34 +105,34 @@ export default function ServicesBlock({
 
   return (
     <div className="w-full mt-22 flex justify-center items-center flex-col pb-16">
-      <h1 className="text-2xl font-bold white-text-shadow-hero">{renderRichText(sectionTitle)}</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold white-text-shadow-hero text-center px-4">{renderRichText(sectionTitle)}</h1>
 
       <div className="border-brand-gradient max-w-xl mx-auto mt-16 z-1">
         <div className="bg-brand-gradient-dark rounded-xl">
           <div className="white-text-shadow-hero p-6 flex flex-col text-center">
-            <h1 className="font-bold text-2xl">{featuredService?.title}</h1>
-            <span className="font-semibold pt-2">{featuredService?.description}</span>
+            <h1 className="font-bold text-xl sm:text-2xl">{featuredService?.title}</h1>
+            <span className="font-semibold pt-2 text-sm sm:text-base">{featuredService?.description}</span>
           </div>
         </div>
       </div>
 
-      <div className="w-full max-w-5xl mx-auto mt-20">
-        <h2 className="text-center text-3xl font-semibold tracking-wide text-gradient">
+      <div className="w-full max-w-5xl mx-auto mt-20 px-4 sm:px-6">
+        <h2 className="text-center text-2xl sm:text-3xl font-semibold tracking-wide text-gradient">
           {renderRichText(subtitle)}
         </h2>
-        <h6 className="text-center text-md font-medium mb-16 white-text-shadow-hero max-w-xl mx-auto pt-8">
+        <h6 className="text-center text-sm sm:text-base font-medium mb-10 sm:mb-16 white-text-shadow-hero max-w-xl mx-auto pt-4 sm:pt-8">
           {renderRichText(description)}
         </h6>
 
-        <div className="flex flex-row justify-center gap-12 mb-12">
+        <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 mb-8 sm:mb-12">
           {services?.slice(0, 2).map((service, index) => (
             <ServicesCard
               key={index}
               icon={getServiceIcon(service, index)}
               title={service.title}
               description={service.description}
-              cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
-              iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}]`}
+              cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
+              iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
               iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
               cardStyle={{
                 boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
@@ -142,15 +142,15 @@ export default function ServicesBlock({
         </div>
 
         {services && services.length > 2 && (
-          <div className="flex flex-row justify-center gap-12 mt-12">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 mt-8 sm:mt-12">
             {services?.slice(2, 4).map((service, index) => (
               <ServicesCard
                 key={index + 2}
                 icon={getServiceIcon(service, index + 2)}
                 title={service.title}
                 description={service.description}
-                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
-                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}]`}
+                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
+                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
                 iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
                 cardStyle={{
                   boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
@@ -161,15 +161,15 @@ export default function ServicesBlock({
         )}
 
         {services && services.length > 4 && (
-          <div className="flex flex-row justify-center gap-12 mt-12">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 mt-8 sm:mt-12">
             {services?.slice(4).map((service, index) => (
               <ServicesCard
                 key={index + 4}
                 icon={getServiceIcon(service, index + 4)}
                 title={service.title}
                 description={service.description}
-                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-109 h-28`}
-                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}]`}
+                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
+                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
                 iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
                 cardStyle={{
                   boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
