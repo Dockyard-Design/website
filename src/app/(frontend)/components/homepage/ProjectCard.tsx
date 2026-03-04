@@ -21,15 +21,15 @@ export function ProjectCard({
 }: ProjectCardProps) {
   return (
     <div
-      className={`flex flex-col w-full gap-0 m-0 p-0 rounded-2xl shadow-lg border-none overflow-hidden bg-transparent transition-all duration-500 ${active ? 'scale-110 shadow-2xl z-20' : 'scale-95 z-10 white-drop-shadow'}`}
+      className={`flex flex-col w-full gap-0 m-0 p-0 rounded-2xl shadow-lg border-none overflow-hidden bg-transparent transition-all duration-500 ${active ? 'scale-110 shadow-2xl z-20' : 'scale-90 z-10 white-drop-shadow'}`}
     >
-      <div className="relative w-full h-65">
+      <div className="relative w-full h-[450px] md:h-[500px]">
         <Image
           src={imageSrc}
           alt={title}
           fill
           className="object-cover rounded-t-2xl z-10"
-          sizes="340px"
+          sizes="420px"
           priority={priority}
           loading={priority ? 'eager' : 'lazy'}
         />
@@ -48,12 +48,12 @@ export function ProjectCard({
             />
           )}
         </AnimatePresence>
-        <div className="inline-flex flex-col items-center bg-projects-gradient rounded-b-xl w-full py-4">
-          <span className="uppercase text-md tracking-widest white-text-shadow-hero text-center">
+        <div className="inline-flex flex-col items-center bg-projects-gradient rounded-b-xl w-full py-6 md:py-8">
+          <span className="uppercase text-lg md:text-xl tracking-widest white-text-shadow-hero text-center px-4">
             {label}
           </span>
           <span
-            className={`text-xl font-bold text-center ${active ? 'text-gradient-hero' : 'text-white'} mb-4`}
+            className={`text-2xl md:text-4xl font-bold text-center ${active ? 'text-gradient-hero' : 'text-white'} mb-2 md:mb-4`}
           >
             {title}
           </span>

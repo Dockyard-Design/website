@@ -53,7 +53,7 @@ export const RenderBlocks: React.FC<RenderBlocksProps> = ({ blocks }) => {
 
           if (Component) {
             return (
-              <section id={sectionId} key={index}>
+              <section id={sectionId} key={index} className="scroll-m-72">
                 <Component {...props} />
               </section>
             )

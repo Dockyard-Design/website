@@ -104,7 +104,7 @@ export default function ServicesBlock({
   }
 
   return (
-    <div className="w-full mt-22 flex justify-center items-center flex-col pb-16">
+    <div className="w-full min-h-screen flex flex-col justify-center items-center px-4 sm:px-6">
       <h1 className="text-2xl sm:text-3xl font-bold white-text-shadow-hero text-center px-4">{renderRichText(sectionTitle)}</h1>
 
       <div className="border-brand-gradient max-w-xl mx-auto mt-16 z-1">
@@ -116,7 +116,7 @@ export default function ServicesBlock({
         </div>
       </div>
 
-      <div className="w-full max-w-5xl mx-auto mt-20 px-4 sm:px-6">
+      <div className="w-full max-w-5xl mx-auto mt-20">
         <h2 className="text-center text-2xl sm:text-3xl font-semibold tracking-wide text-gradient">
           {renderRichText(subtitle)}
         </h2>
@@ -131,11 +131,15 @@ export default function ServicesBlock({
               icon={getServiceIcon(service, index)}
               title={service.title}
               description={service.description}
-              cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
-              iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
-              iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
+              cardClassName={`bg-services-gradient-card w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
               cardStyle={{
+                border: `1px solid ${service.cardColor}/50`,
                 boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
+              }}
+              iconClassName={`w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
+              iconWrapperStyle={{
+                background: `linear-gradient(to top, ${service.iconGradientStart}, ${service.iconGradientEnd})`,
+                boxShadow: `0px 0px 12px ${service.cardColor}`,
               }}
             />
           ))}
@@ -149,11 +153,15 @@ export default function ServicesBlock({
                 icon={getServiceIcon(service, index + 2)}
                 title={service.title}
                 description={service.description}
-                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
-                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
-                iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
+                cardClassName={`bg-services-gradient-card w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
                 cardStyle={{
+                  border: `1px solid ${service.cardColor}/50`,
                   boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
+                }}
+                iconClassName={`w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
+                iconWrapperStyle={{
+                  background: `linear-gradient(to top, ${service.iconGradientStart}, ${service.iconGradientEnd})`,
+                  boxShadow: `0px 0px 12px ${service.cardColor}`,
                 }}
               />
             ))}
@@ -168,11 +176,15 @@ export default function ServicesBlock({
                 icon={getServiceIcon(service, index + 4)}
                 title={service.title}
                 description={service.description}
-                cardClassName={`bg-services-gradient-card border border-[${service.cardColor}]/50 w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
-                iconClassName={`bg-gradient-to-t from-[${service.iconGradientStart}] to-[${service.iconGradientEnd}] w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
-                iconWrapperStyle={{ boxShadow: `0px 0px 12px ${service.cardColor}` }}
+                cardClassName={`bg-services-gradient-card w-full sm:w-auto sm:min-w-[380px] h-auto sm:h-28`}
                 cardStyle={{
+                  border: `1px solid ${service.cardColor}/50`,
                   boxShadow: `14px 14px 18px 1px #000, 0px 0px 18px 1px ${service.cardColor}`,
+                }}
+                iconClassName={`w-24 sm:w-30 h-full sm:h-auto flex-shrink-0`}
+                iconWrapperStyle={{
+                  background: `linear-gradient(to top, ${service.iconGradientStart}, ${service.iconGradientEnd})`,
+                  boxShadow: `0px 0px 12px ${service.cardColor}`,
                 }}
               />
             ))}

@@ -80,55 +80,55 @@ export default function ProjectsCarouselBlock({
   }
 
   return (
-    <section className="w-full pt-5 pb-10 flex flex-col items-center justify-start content-center">
+    <section className="w-full h-screen pt-10 pb-16 flex flex-col items-center justify-center">
       {/* Heading and subheading */}
-      <div className="flex flex-col items-center mb-8">
+      <div className="flex flex-col items-center mb-8 z-20">
         {titleHtml ? (
           <h2
-            className="text-3xl font-bold tracking-tight text-center white-text-shadow-hero"
+            className="text-3xl md:text-5xl font-bold tracking-tight text-center white-text-shadow-hero"
             dangerouslySetInnerHTML={{ __html: titleHtml }}
           />
         ) : (
-          <h2 className="text-3xl font-bold tracking-tight text-center white-text-shadow-hero">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-center white-text-shadow-hero">
             SIT BACK &amp;{' '}
             <span className="text-[#00CDF4]">
-              R<span className="text-[26px]">E</span>
-              <span className="text-[22px]">L</span>
-              <span className="text-[18px]">A</span>
-              <span className="text-[14px]">X ...</span>
+              R<span className="text-[26px] md:text-[40px]">E</span>
+              <span className="text-[22px] md:text-[34px]">L</span>
+              <span className="text-[18px] md:text-[28px]">A</span>
+              <span className="text-[14px] md:text-[22px]">X ...</span>
             </span>{' '}
             WE KNOW WHAT WE&apos;RE DOING
           </h2>
         )}
-        <p className="mt-4 text-lg font-semibold text-center white-text-shadow-hero max-w-2xl">
+        <p className="mt-4 text-lg md:text-2xl font-semibold text-center white-text-shadow-hero max-w-2xl px-4">
           {subtitle || 'Take a peek at our past work and get inspired for your own web project'}
         </p>
       </div>
 
       {/* Carousel with side nav buttons */}
       <div
-        className="relative w-full flex justify-center items-center select-none"
-        style={{ height: 440 }}
+        className="relative w-full flex justify-center items-center select-none z-10 mt-20"
+        style={{ height: '65vh' }}
         aria-roledescription="carousel"
       >
-        <div className="absolute left-20">
+        <div className="absolute left-4 md:left-12">
           <Button
             variant="customOutline"
             size="icon"
             onClick={() => paginate(-1)}
             aria-label="Previous slide"
-            className="rounded-full w-12 h-12"
+            className="rounded-full w-12 h-12 md:w-16 md:h-16"
           >
             &lt;
           </Button>
         </div>
-        <div className="absolute right-20">
+        <div className="absolute right-4 md:right-12">
           <Button
             variant="customOutline"
             size="icon"
             onClick={() => paginate(1)}
             aria-label="Next slide"
-            className="rounded-full w-12 h-12"
+            className="rounded-full w-12 h-12 md:w-16 md:h-16"
           >
             &gt;
           </Button>
@@ -140,16 +140,18 @@ export default function ProjectsCarouselBlock({
           if (offset === 0) slot = 'prev'
           else if (offset === 1) slot = 'center'
           else slot = 'next'
-          const x = slot === 'prev' ? -cardWidth * 0.7 : slot === 'next' ? cardWidth * 0.7 : 0
+          const cardWidth = 420
+          const overlap = 60 // 60px overlap = ~14% of 420px
+          const x = slot === 'prev' ? -cardWidth + overlap : slot === 'next' ? cardWidth - overlap : 0
           const y = slot === 'center' ? 0 : 0
-          const scale = slot === 'center' ? 0.8 : 0.75
+          const scale = slot === 'center' ? 1 : 0.9
           const z = slot === 'center' ? 20 : 10
-          const opacity = slot === 'center' ? 1 : 0.8
+          const opacity = slot === 'center' ? 1 : 0.9
           return (
             <motion.div
               key={idx}
-              className={`absolute w-85 top-0 left-1/2 ${slot === 'center' ? 'z-20' : 'z-10'}`}
-              style={{ marginLeft: '-170px', pointerEvents: slot === 'center' ? 'auto' : 'none' }}
+              className={`absolute w-[420px] top-0 left-1/2 ${slot === 'center' ? 'z-20' : 'z-10'}`}
+              style={{ marginLeft: '-210px', pointerEvents: slot === 'center' ? 'auto' : 'none' }}
               animate={{ x, y, scale, opacity, zIndex: z }}
               transition={{ type: 'spring', stiffness: 320, damping: 42, mass: 1 }}
               onAnimationComplete={() => slot === 'center' && setIsAnimating(false)}
@@ -163,7 +165,7 @@ export default function ProjectsCarouselBlock({
         })}
       </div>
 
-      <div className="flex justify-center gap-10">
+      <div className="flex justify-center gap-10 mt-8 z-20">
         {showSeeMoreButton !== false && (
           <Button variant="customOutline" size="lg-rounded" className="w-50" asChild>
             <a href={seeMoreButtonLink || '#'}>{seeMoreButtonText || 'SEE MORE'} &rarr;</a>

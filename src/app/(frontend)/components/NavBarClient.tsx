@@ -48,10 +48,13 @@ function handleSmoothScroll(
     const element = document.getElementById(targetId)
 
     if (element) {
-      // Calculate offset to account for fixed navbar
-      const navbarHeight = 80
+      // The desktop navbar is absolutely positioned at left-80 with p-20 padding
+      // This pushes content to the right, but doesn't affect vertical scroll
+      // The issue is likely that sections take 100vh height
+      // Use a small offset to account for any fixed elements at top
+      const offset = 20 // small buffer
       const elementPosition = element.getBoundingClientRect().top + window.scrollY
-      const offsetPosition = elementPosition - navbarHeight
+      const offsetPosition = elementPosition - offset
 
       window.scrollTo({
         top: offsetPosition,
