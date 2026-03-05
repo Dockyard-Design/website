@@ -5,6 +5,7 @@ import ServicesBlock from './blocks/ServicesBlock'
 import AboutBlock from './blocks/AboutBlock'
 import StepsBlock from './blocks/StepsBlock'
 import ProjectsCarouselBlock from './blocks/ProjectsCarouselBlock'
+import FullscreenProjectsBlock from './blocks/FullscreenProjectsBlock'
 
 const blockComponents = {
   hero: HeroBlock,
@@ -12,6 +13,7 @@ const blockComponents = {
   about: AboutBlock,
   steps: StepsBlock,
   projectsCarousel: ProjectsCarouselBlock,
+  fullscreenProjects: FullscreenProjectsBlock,
 }
 
 export type BlockType = keyof typeof blockComponents
@@ -27,6 +29,7 @@ const blockTypeToId: Record<string, string> = {
   about: 'about',
   steps: 'steps',
   projectsCarousel: 'projects',
+  fullscreenProjects: 'projects',
 }
 
 // Type assertion helper to convert block to component props

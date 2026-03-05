@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '../ui/Button'
 import Image from 'next/image'
@@ -73,6 +74,36 @@ function TypewriterText({ text, isComplete }: { text: string; isComplete: boolea
   )
 }
 
+// Handle smooth scrolling to anchor links
+function handleSmoothScroll(
+  e: React.MouseEvent<HTMLAnchorElement>,
+  href: string,
+  pathname: string,
+) {
+  if (href.startsWith('/#')) {
+    if (pathname !== '/') {
+      return
+    }
+
+    e.preventDefault()
+    const targetId = href.substring(2)
+    const element = document.getElementById(targetId)
+
+    if (element) {
+      const offset = 20
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY
+      const offsetPosition = elementPosition - offset
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      })
+
+      window.history.pushState(null, '', href)
+    }
+  }
+}
+
 export default function HeroBlock({
   heroImage,
   heroImagePosition,
@@ -103,6 +134,7 @@ export default function HeroBlock({
     return { width: 1920, height: 1080 }
   }
 
+  const pathname = usePathname()
   const heroUrl = getImageUrl(heroImage)
   const heroDimensions = getImageDimensions(heroImage)
 
@@ -400,6 +432,7 @@ export default function HeroBlock({
                 {secondaryLink && (
                   <Link
                     href={secondaryLink.url || '#'}
+                    onClick={(e) => handleSmoothScroll(e, secondaryLink.url || '#', pathname)}
                     className="tracking-normal text-center text-xl hover:underline pt-4"
                   >
                     <span>{secondaryLink.text}</span>
@@ -561,6 +594,7 @@ export default function HeroBlock({
           {secondaryLink && (
             <Link
               href={secondaryLink.url || '#'}
+              onClick={(e) => handleSmoothScroll(e, secondaryLink.url || '#', pathname)}
               className="tracking-normal text-center text-base hover:underline pt-3"
             >
               <span>{secondaryLink.text}</span>

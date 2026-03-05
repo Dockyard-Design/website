@@ -426,7 +426,9 @@ export interface Page {
    * Check if this is the homepage (slug should be "home")
    */
   isHome?: boolean | null;
-  blocks?: (HeroBlock | ServicesBlock | AboutBlock | ProjectsCarouselBlock | StepsBlock)[] | null;
+  blocks?:
+    | (HeroBlock | ServicesBlock | AboutBlock | ProjectsCarouselBlock | FullscreenProjectsBlock | StepsBlock)[]
+    | null;
   meta?: {
     /**
      * If left empty, the page title will be used
@@ -593,6 +595,26 @@ export interface ProjectsCarouselBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'projectsCarousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FullscreenProjectsBlock".
+ */
+export interface FullscreenProjectsBlock {
+  showButtons?: boolean | null;
+  autoPlay?: boolean | null;
+  /**
+   * Time between automatic slide transitions
+   */
+  autoPlayInterval?: number | null;
+  showDots?: boolean | null;
+  seeMoreButtonText?: string | null;
+  seeMoreButtonLink?: string | null;
+  contactButtonText?: string | null;
+  contactButtonLink?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'fullscreenProjects';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -893,6 +915,7 @@ export interface PagesSelect<T extends boolean = true> {
         services?: T | ServicesBlockSelect<T>;
         about?: T | AboutBlockSelect<T>;
         projectsCarousel?: T | ProjectsCarouselBlockSelect<T>;
+        fullscreenProjects?: T | FullscreenProjectsBlockSelect<T>;
         steps?: T | StepsBlockSelect<T>;
       };
   meta?:
@@ -998,6 +1021,22 @@ export interface ProjectsCarouselBlockSelect<T extends boolean = true> {
   seeMoreButtonText?: T;
   seeMoreButtonLink?: T;
   showContactButton?: T;
+  contactButtonText?: T;
+  contactButtonLink?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FullscreenProjectsBlock_select".
+ */
+export interface FullscreenProjectsBlockSelect<T extends boolean = true> {
+  showButtons?: T;
+  autoPlay?: T;
+  autoPlayInterval?: T;
+  showDots?: T;
+  seeMoreButtonText?: T;
+  seeMoreButtonLink?: T;
   contactButtonText?: T;
   contactButtonLink?: T;
   id?: T;

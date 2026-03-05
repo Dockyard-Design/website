@@ -1,6 +1,6 @@
 import { slugField } from 'payload'
 import type { CollectionConfig, Field } from 'payload'
-import { Hero, Services, About, Steps, ProjectsCarousel } from '../blocks'
+import { Hero, Services, About, Steps, ProjectsCarousel, FullscreenProjects } from '../blocks'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -64,7 +64,7 @@ export const Pages: CollectionConfig = {
               name: 'blocks',
               type: 'blocks',
               label: 'Page Sections',
-              blocks: [Hero, Services, About, ProjectsCarousel, Steps],
+              blocks: [Hero, Services, About, ProjectsCarousel, FullscreenProjects, Steps],
               admin: {
                 initCollapsed: false,
               },

@@ -27,6 +27,8 @@ export default function ProjectsCarouselBlock({
   showSeeMoreButton = true,
   seeMoreButtonText = 'SEE MORE →',
   seeMoreButtonLink = '/projects',
+  // NOTE: For smooth scroll from navbar on homepage, use "#projects" instead of "/projects"
+  // The section ID is "projects" (set in RenderBlocks.tsx blockTypeToId mapping)
   showContactButton = true,
   contactButtonText = 'GET IN TOUCH',
   contactButtonLink = '/contact',
